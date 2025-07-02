@@ -4,6 +4,7 @@ $pageTitle = 'Daten - Oproepjes Nederland';
 // Determine the referrer ID from the environment if provided
 $ref_id = getenv('REF_ID') ?: '';
 include $base . '/includes/header.php';
+$api_url = $config['PROFILE_ENDPOINT'];
 ?>
 <!-- Page Content -->
 <div class="container" id="profiel">
