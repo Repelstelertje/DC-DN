@@ -55,7 +55,7 @@
 	$navItems2 = array(
 
                                         array(
-                                                'slug' => 'datingtips.php',
+                                                'slug' => 'datingtips',
                                                 'title' => 'Dating tips'
                                         ),
                                         array(

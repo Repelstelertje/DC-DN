@@ -8,9 +8,10 @@ include $base . '/includes/array_tips.php';
 
 require_once $base . '/includes/utils.php';
 
-$datingtip = 'datingtips';
-if(isset($_GET['item'])) {
-        $candidate = strip_bad_chars($_GET['item']);
+$datingtip = 'dating-tips';
+$param = $_GET['tip'] ?? $_GET['item'] ?? null;
+if ($param !== null) {
+        $candidate = strip_bad_chars($param);
         if (isset($datingtips[$candidate])) {
                 $datingtip = $candidate;
         }
