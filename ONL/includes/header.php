@@ -1,5 +1,8 @@
 <?php
   $companyName = "Oproepjes Nederland";
+    if (!isset($base)) {
+    $base = dirname(__DIR__);
+  }
   require_once $base . '/../lib/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages

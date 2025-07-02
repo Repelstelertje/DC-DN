@@ -1,6 +1,6 @@
 <?php
   $companyName = "Dating Nebenan";
-  if (!isset($base)) {
+    if (!isset($base)) {
     $base = dirname(__DIR__);
   }
   require_once $base . '/../lib/site.php';
@@ -48,7 +48,6 @@
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="img/fav/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
-<?php
 <?php
     list($canonicalUrl, $title) = generate_canonical(
         $baseUrl,
@@ -155,6 +154,7 @@
             'description' => 'Dating in Thüringen ist entspannt, naturverbunden und kulturell reich. Mit Städten wie Erfurt, Weimar und Jena sowie weiten Wäldern, Burgen und malerischen Dörfern bietet das grüne Herz Deutschlands eine romantische Kulisse für jedes Date. Ob ein Spaziergang durch historische Altstädte, ein Picknick im Thüringer Wald oder ein gemeinsamer Theaterbesuch – die Region lädt zu echten Begegnungen ein. Die Menschen in Thüringen gelten als bodenständig, herzlich und zuverlässig – perfekte Voraussetzungen für ehrliche und dauerhafte Beziehungen.',
             'image' => $baseUrl . '/img/front/thuringen.jpeg'
         ],
+    ];
     $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
     render_og_meta($og);
 ?>

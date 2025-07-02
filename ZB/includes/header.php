@@ -1,5 +1,8 @@
 <?php
   $companyName = "Zoekertjes België";
+    if (!isset($base)) {
+    $base = dirname(__DIR__);
+  }
   require_once $base . '/../lib/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
@@ -46,7 +49,6 @@
 <meta name="msapplication-TileImage" content="img/fav/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <?php
-<?php
     list($canonicalUrl, $title) = generate_canonical(
         $baseUrl,
         $config['PROFILE_ENDPOINT'],
@@ -58,6 +60,7 @@
     echo '<link rel="canonical" href="' . $canonicalUrl . '" >';
     echo '<title>' . $title . '</title>';
 ?>
+<?php
     // Stel standaardwaarden in
     $default_title = "Zoekertjes België - Vind en Plaats zoekertjes in België";
     $default_description = "Zoek en plaats eenvoudig oproepjes in heel België. Van dating tot vriendschap, ontdek de beste oproepjes op Zoekertjes België.";
@@ -126,6 +129,7 @@
             'description' => 'Plaats of bekijk datingoproepjes in West-Vlaanderen via Zoekertjes België en vind je date.',
             'image' => $baseUrl . 'img/belgie/westvlaanderen.jpg'
         ],
+    ];
     $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
     render_og_meta($og);
 ?>

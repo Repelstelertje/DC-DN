@@ -1,5 +1,8 @@
 <?php
   $companyName = "Dating Contact";
+    if (!isset($base)) {
+    $base = dirname(__DIR__);
+  }
   require_once $base . '/../lib/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
@@ -69,7 +72,7 @@
     $og_title = $default_title;
     $og_description = $default_description;
     $og_image = $default_image;
-    $og_url = $default_url;
+    $og_url = $canonicalUrl;
     $og_pages = [
         'dating-east-midlands' => [
             'title' => 'Dating in East Midlands',
