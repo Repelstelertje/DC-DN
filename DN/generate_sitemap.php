@@ -5,11 +5,7 @@ $config = include __DIR__ . '/config.php';
 
 $baseUrl = getenv('ONL_BASE_URL') ?: 'https://datingnebenan.de';
 
-function slugify($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
-}
+require_once __DIR__ . '/../includes/utils.php';
 
 $urls = [];
 
