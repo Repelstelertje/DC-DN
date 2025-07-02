@@ -2,7 +2,7 @@
 /**
  * Common utilities for site headers.
  */
-require_once __DIR__ . '/../includes/utils.php';
+require_once __DIR__ . '/utils.php';
 function get_base_url(string $default): string {
     $url = getenv('ONL_BASE_URL');
     return $url !== false && $url !== '' ? $url : $default;

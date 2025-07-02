@@ -5,7 +5,7 @@ $config = include __DIR__ . '/includes/config.php';
 
 $baseUrl = getenv('ONL_BASE_URL') ?: 'https://datingnebenan.de';
 
-require_once __DIR__ . '/../includes/utils.php';
+require_once __DIR__ . '/includes/utils.php';
 
 $urls = [];
 
