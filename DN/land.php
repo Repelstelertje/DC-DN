@@ -1,6 +1,6 @@
 <?php
     include('includes/array_prov.php');
-    require_once __DIR__ . '/../includes/utils.php';
+    require_once __DIR__ . '/includes/utils.php';
 
     $land = isset($_GET['land']) ? strip_bad_chars($_GET['land']) : '';
     switch ($land) {
