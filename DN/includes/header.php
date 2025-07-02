@@ -3,32 +3,22 @@
   if (!isset($base)) {
     $base = dirname(__DIR__);
   }
+  require_once $base . '/../lib/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/config.php';
-  /**
-   * Convert a string to a URL friendly slug.
-   *
-   * @param string $text
-   * @return string
-   */
-  function slugify($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
-  }
-  // Control error visibility through an environment variable. By default
-  // errors are hidden in production unless APP_DEBUG is truthy.
-  $appDebug = getenv('APP_DEBUG');
-  if (filter_var($appDebug, FILTER_VALIDATE_BOOLEAN)) {
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
-  } else {
-    ini_set('display_errors', '0');
-    ini_set('display_startup_errors', '0');
-  }
+
+  configure_error_handling();
+  $baseUrl = get_base_url('https://datingnebenan.de');
+  list($canonicalUrl, $title) = generate_canonical(
+      $baseUrl,
+      $config['PROFILE_ENDPOINT'],
+      'date-mit',
+      $canonical ?? null,
+      $pageTitle ?? (defined('TITLE') ? TITLE : null),
+      $companyName
+  );
 ?>
 <!DOCTYPE html>
 <html lang="de-DE">
@@ -59,74 +49,15 @@
 <meta name="msapplication-TileImage" content="img/fav/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <?php
-    // Canonical URL logic
-    // Use the base URL from config if available
-    if (!isset($baseUrl)) {
-        $baseUrl = getenv('ONL_BASE_URL') ?: 'https://datingnebenan.de';
-    }
-    // Default canonical URL uses current request URI so every page gets
-    // its own canonical tag. Allow overrides via $canonical and $pageTitle
-    $canonicalUrl = isset($canonical) ? $canonical : $baseUrl . $_SERVER['REQUEST_URI'];
-    $title = isset($pageTitle) ? $pageTitle : "Dating Nebenan"; // Default title
-    if (isset($_GET['item'])) {
-        $canonicalUrl = $baseUrl . "/dating-" . htmlspecialchars($_GET['item']);
-        $title = "Dating " . htmlspecialchars($_GET['item']);
-    } else if (isset($_GET['slug'])) {
-        $slug = preg_replace('/[^a-z0-9-]/', '', strtolower($_GET['slug']));
-        $canonicalUrl = $baseUrl . '/date-mit-' . htmlspecialchars($slug);
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $id = $_GET['id'];
-            $canonicalUrl .= '?id=' . $id;
-        }
-        $titleSlug = ucwords(str_replace('-', ' ', $slug));
-        $title = 'Date mit ' . htmlspecialchars($titleSlug);
-    } else if (isset($_GET['id'])) {
-        $id = preg_replace('/[^0-9]/', '', $_GET['id']);
-        $apiResponse = @file_get_contents("https://23mlf01ccde23.com/profile/get0/8/" . $id);
-        if ($apiResponse !== false) {
-            $data = json_decode($apiResponse, true);
-            if (isset($data['profile']['name'])) {
-                $profileName = $data['profile']['name'];
-                $slug = strtolower($profileName);
-                $slug = preg_replace('/\s+/', '-', $slug);
-                $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
-                $slug = trim($slug, '-');
-                $canonicalUrl = $baseUrl . '/date-mit-' . $slug . '?id=' . $id;
-                $title = 'Date mit ' . htmlspecialchars($profileName);
-            } else {
-                $canonicalUrl = $baseUrl . "/profile?id=" . htmlspecialchars($_GET['id']);
-                $title = "Date mit " . htmlspecialchars($_GET['id']);
-            }
-        } else {
-            $canonicalUrl = $baseUrl . "/profile?id=" . htmlspecialchars($_GET['id']);
-            $title = "Date mit " . htmlspecialchars($_GET['id']);
-        }
-    } else if (isset($_GET['tip'])) {
-        $canonicalUrl = $baseUrl . "/datingtips-" . htmlspecialchars($_GET['tip']);
-        $title = "Datingtipps " . htmlspecialchars($_GET['tip']);
-    } else if (isset($_GET['land'])) {
-        $slugMap = ['de' => 'deutschland', 'at' => 'osterreich', 'ch' => 'schweiz'];
-        $titleMap = ['de' => 'Deutschland', 'at' => 'Österreich', 'ch' => 'Schweiz'];
-        $code = $_GET['land'];
-        if (isset($slugMap[$code])) {
-            $canonicalUrl = $baseUrl . '/dating-' . $slugMap[$code];
-            $title = 'Dating ' . $titleMap[$code];
-        }
-    }
-    // When no query parameters are present and no custom canonical is provided,
-    // build canonical from script name without the .php extension
-    if (empty($_GET) && !isset($canonical)) {
-        $script = basename($_SERVER['SCRIPT_NAME'], '.php');
-        if ($script !== 'index') {
-            $canonicalUrl = $baseUrl . '/' . $script;
-        } else {
-            $canonicalUrl = $baseUrl;
-        }
-    }
-    // Always append site name to the title when not already present
-    if (strpos($title, 'Dating Nebenan') === false) {
-        $title .= ' - Dating Nebenan';
-    }
+<?php
+    list($canonicalUrl, $title) = generate_canonical(
+        $baseUrl,
+        $config['PROFILE_ENDPOINT'],
+        'date-mit',
+        $canonical ?? null,
+        $pageTitle ?? (defined('TITLE') ? TITLE : null),
+        $companyName
+    );
     echo '<link rel="canonical" href="' . $canonicalUrl . '" >';
     echo '<title>' . $title . '</title>';
 ?>
@@ -224,43 +155,9 @@
             'description' => 'Dating in Thüringen ist entspannt, naturverbunden und kulturell reich. Mit Städten wie Erfurt, Weimar und Jena sowie weiten Wäldern, Burgen und malerischen Dörfern bietet das grüne Herz Deutschlands eine romantische Kulisse für jedes Date. Ob ein Spaziergang durch historische Altstädte, ein Picknick im Thüringer Wald oder ein gemeinsamer Theaterbesuch – die Region lädt zu echten Begegnungen ein. Die Menschen in Thüringen gelten als bodenständig, herzlich und zuverlässig – perfekte Voraussetzungen für ehrliche und dauerhafte Beziehungen.',
             'image' => $baseUrl . '/img/front/thuringen.jpeg'
         ],
-    ];
-    // Zoek een match in de array
-    foreach ($og_pages as $keyword => $data) {
-        if (strpos($current_url, $keyword) !== false) {
-            if (isset($data['title'])) {
-                $og_title = $data['title'];
-            }
-            if (isset($data['description'])) {
-                $og_description = $data['description'];
-            }
-            if (isset($data['image'])) {
-                $og_image = $data['image'];
-            }
-            // Provinces may specify a custom URL; otherwise keep the default
-            if (isset($data['url'])) {
-                $og_url = $data['url'];
-            }
-            break;
-        }
-    }
-    // Override Open Graph description when a specific meta description is provided
-    if (isset($metaDescription) && !empty($metaDescription)) {
-        $og_description = htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8');
-    }
+    $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
+    render_og_meta($og);
 ?>
-<!-- Voeg dynamische Open Graph-tags toe in de HTML -->
-<meta property="og:title" content="<?php echo $og_title; ?>">
-<meta property="og:description" content="<?php echo $og_description; ?>">
-<meta property="og:url" content="<?php echo $og_url; ?>">
-<meta property="og:type" content="website">
-<meta property="og:image" content="<?php echo $og_image; ?>">
-<!-- Twitter Cards voor betere integratie met Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?php echo $og_title; ?>">
-<meta name="twitter:description" content="<?php echo $og_description; ?>">
-<meta name="twitter:image" content="<?php echo $og_image; ?>">
-<meta name="twitter:url" content="<?php echo $og_url; ?>">
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
