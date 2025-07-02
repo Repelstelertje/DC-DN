@@ -18,7 +18,7 @@ function slugify(str){
 }
 
 function getSlugFromPath(){
-    var match = window.location.pathname.match(/^\/date-([^\/]+)$/);
+    var match = window.location.pathname.match(/^\/daten-met-([^\/]+)$/);
     return match ? match[1] : null;
 }
 
@@ -74,7 +74,7 @@ var profiel= new Vue({
                     }
                     var slug = slugify(that.profile.name || '');
                     if(slug){
-                        var newUrl = '/date-' + slug;
+                        var newUrl = '/daten-met-' + slug;
                         var link = document.querySelector('link[rel=canonical]');
                         if(link){
                             link.setAttribute('href', 'https://oproepjesnederland.nl' + newUrl);
