@@ -1,0 +1,291 @@
+/***** Multi Step Form *****/
+.msf-container {text-align: center; }
+
+.msf-form h4 {
+	margin: 20px 0px;
+	font-weight: 700;
+	line-height: 26px;
+}
+.msf-form h4 .step { color: #000; }
+
+.msf-form form fieldset { display: none; overflow: hidden; }
+
+.msf-form form input[type="text"] { width: 400px; margin-left: 5px; margin-right: 5px; }
+
+.msf-form form input[type="password"] { width: 400px; margin-left: 5px; margin-right: 5px; }
+
+.msf-form form input[type="email"] { width: 400px; margin-left: 5px; margin-right: 5px; }
+
+.msf-form form textarea .form-control { width: 700px; height: 160px; }
+
+.msf-form form select.form-control { width: 400px; margin-left: 5px; margin-right: 5px; }
+
+.msf-form form .form-group { margin-bottom: 15px; }
+
+.msf-form form button.btn { min-width: 110px; margin-top: 15px; margin-left: 5px; margin-right: 5px; }
+
+.msf-form form .radio-buttons-1,
+.msf-form form .radio-buttons-2,
+.msf-form form .checkboxes-1,
+.msf-form form .checkboxes-2 { display: inline-block; margin: 0 15px 20px 15px; }
+
+.msf-form form .selects-1,
+.msf-form form .selects-2 { display: inline-block; margin: 0 0 20px 0; }
+
+/***** Form-elements *****/
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea, 
+textarea.form-control {
+	height: 40px;
+    margin: 0;
+    padding: 0 12px;
+    vertical-align: middle;
+    background: #fff;
+    background: rgba(255, 255, 255);
+    border: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    color: #000;
+    -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+textarea, 
+textarea.form-control {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	line-height: 30px;
+}
+
+input[type="text"]:focus, 
+textarea:focus, 
+textarea.form-control:focus {
+	outline: 0;
+	background: #fff;
+    border: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
+
+input[type="password"]:focus, 
+textarea:focus, 
+textarea.form-control:focus {
+    outline: 0;
+    background: #fff;
+    border: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
+
+input[type="email"]:focus, 
+textarea:focus, 
+textarea.form-control:focus {
+    outline: 0;
+    background: #fff;
+    border: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
+
+input[type="text"]:-moz-placeholder, textarea:-moz-placeholder, textarea.form-control:-moz-placeholder { color: #888; }
+input[type="text"]:-ms-input-placeholder, textarea:-ms-input-placeholder, textarea.form-control:-ms-input-placeholder { color: #888; }
+input[type="text"]::-webkit-input-placeholder, textarea::-webkit-input-placeholder, textarea.form-control::-webkit-input-placeholder { color: #888; }
+
+label.checkbox-inline, label.radio-inline { margin-right: 15px; font-weight: 400; }
+
+.checkbox-inline input[type="checkbox"], .radio-inline input[type="radio"] { position: static; }
+
+
+button.knop {
+    margin: 0;
+    padding: 0 20px;
+    vertical-align: middle;
+    background: #a93a52;
+    border: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 50px;
+    color: #fff;
+    -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+    text-shadow: none;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+button.knop:hover { opacity: 0.6; color: #fff; }
+
+button.knop:active { outline: 0; opacity: 0.6; color: #fff; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+button.knop:focus { outline: 0; opacity: 0.6; background: #a93a52; color: #fff; }
+
+button.knop:active:focus, button.knop.active:focus { outline: 0; opacity: 0.6; background: #a93a52; color: #fff; }
+
+select.form-control {
+	height: 40px;
+    margin: 0;
+    padding: 0 12px;
+    vertical-align: middle;
+    background: #fff;
+    background: rgba(255, 255, 255);
+    border: 0;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    color: #000;
+    -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+    -o-transition: all .3s; -moz-transition: all .3s; -webkit-transition: all .3s; -ms-transition: all .3s; transition: all .3s;
+}
+
+select.form-control:focus {
+	outline: 0;
+	background: #fff;
+    border: 0;
+    -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none;
+}
+
+/***** MEDIA QUERY *****/
+@media (min-width: 992px) and (max-width: 1199px) {
+    
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    
+    .msf-form form input[type="text"] { width: 300px; }
+
+}
+
+@media (max-width: 767px) {
+    
+    .msf-form form .form-group { display: inline-block; vertical-align: middle; }
+    .msf-form form .form-control { display: inline-block; }
+    .msf-form form input[type="text"] { width: 300px; }
+    .msf-form form input[type="email"] { width: 300px; }
+    .msf-form form input[type="password"] { width: 300px; }
+    .msf-form form textarea.form-control,
+    .msf-form form select.form-control { width: 300px; }
+    .msf-form form .checkbox-inline+.checkbox-inline, .msf-form form .radio-inline+.radio-inline { margin-left: 0; }
+    
+}
+
+@media (max-width: 415px) {
+
+    .msf-form form textarea.form-control,
+    .msf-form form select.form-control { width: 200px; }
+
+}
+
+/* Retina-ize images/icons
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) {
+     */
+    /* logo 
+    .navbar-brand {
+        background-image: url(../img/logo@2x.png) !important; background-repeat: no-repeat !important; background-size: 229px 36px !important;
+    }
+    
+}
+*/
+
+
+/***** Custom *****/
+.reg-label {
+	color: #000;
+	display: block;
+	font-size: 16px;
+	font-weight: 700;
+	opacity: 1;
+}
+
+.dag, .maand, .jaar {
+	margin-bottom: 0px !important;
+}
+
+.datum {
+	max-width: 150px;
+}
+
+.geboortedatum {
+	max-width: 500px;
+	margin: 0px auto;
+}
+
+.wonen {
+	max-width: 250px;
+	display: block;
+}
+
+.wonenin {
+	max-width: 550px;
+	margin: 0px auto;
+}
+
+.provincie {
+	display: block;
+}
+
+.stad {
+	display: block;
+}
+
+select.form-control {
+	background-color: rgba(255, 255, 255);
+}
+
+.bg-main {
+	padding: 20px;
+	background-color: rgba(68,68,68,0.8);
+}
+
+@media (max-width: 415px) {
+	.datum {width: 80px !important;}
+	.wonen {width: 110px !important;}
+}
+.error {
+	margin: 0px auto;
+	padding: 10px;
+	display: block;
+	color: red;
+	line-height: 24px;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+@media (max-width: 768px){
+	.error {
+    width: 300px;}
+}
+
+.label1 {
+	display: inline-block;
+}
+
+.msf-container {
+	margin: 0px 5px;
+	vertical-align: top;
+	display: inline-block;
+}
+
+.container-lander {
+	text-align: center;
+}
+
+.modal-body {
+	background-color: #EEE;
+	padding: 0;
+}
+
+.form-inline {
+	margin-bottom: 10px;
+}

@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: zoekertjesbelgie.be
+Token: fa824cf902b59613d2a237d2e68c39791cf0b95c2b47babc08843778909cee84
