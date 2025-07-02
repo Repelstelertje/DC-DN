@@ -16,7 +16,7 @@
       $config['PROFILE_ENDPOINT'],
       'date-mit',
       $canonical ?? null,
-      $pageTitle ?? (defined('TITLE') ? TITLE : null),
+      $pageTitle ?? null,
       $companyName
   );
 ?>
@@ -55,7 +55,7 @@
         $config['PROFILE_ENDPOINT'],
         'date-mit',
         $canonical ?? null,
-        $pageTitle ?? (defined('TITLE') ? TITLE : null),
+        $pageTitle ?? null,
         $companyName
     );
     echo '<link rel="canonical" href="' . $canonicalUrl . '" >';

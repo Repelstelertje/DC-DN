@@ -1,9 +1,7 @@
 <?php 
 $base = __DIR__;
-define("TITLE", "Datingtips");
-
-$canonical = 'https://zoekertjesbelgie.be/datingtips';
 $pageTitle = 'Datingtips - Zoekertjes België';
+$canonical = 'https://zoekertjesbelgie.be/datingtips';
 
 include $base . '/includes/array_tips.php';
 

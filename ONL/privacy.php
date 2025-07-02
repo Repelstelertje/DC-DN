@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Privacybeleid');
 $canonical = 'https://oproepjesnederland.nl/privacy';
 $pageTitle = 'Privacybeleid - Oproepjes Nederland';
 include $base . '/includes/header.php';

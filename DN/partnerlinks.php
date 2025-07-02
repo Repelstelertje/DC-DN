@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Partnerlinks');
 $canonical = 'https://datingnebenan.de/partnerlinks';
 $pageTitle = 'Partnerlinks - Dating Nebenan';
 include $base . '/includes/header.php';

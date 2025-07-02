@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Privacybeleid');
 $canonical = 'https://zoekertjesbelgie.be/privacy';
 $pageTitle = 'Privacybeleid - Zoekertjes België';
 include $base . '/includes/header.php';
