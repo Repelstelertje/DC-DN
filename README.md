@@ -10,3 +10,14 @@ For every site (`DC`, `DN`, `ONL`, `ZB`) vendor assets are stored in:
 - `js/vendor/` – Minified JS utilities (Vue, Axios, etc.).
 
 Keeping the same structure across sites simplifies updates and ensures deployments do not rely on external CDNs.
+
+## Environment variables
+
+Deployment for each site relies on three environment variables that override the defaults in every `config.php` file:
+
+- `ONL_BASE_URL` – canonical site URL used when generating links and Open Graph metadata.
+- `BASE_API_URL` – base URL of the remote API serving profile data and banners.
+- `APP_DEBUG` – set to `true` to enable PHP error reporting during development.
+
+If not set, each site falls back to the hard coded values in its own `config.php`. Specifying these variables per environment lets the same code run for all four directories (`DC`, `DN`, `ONL`, `ZB`).
+
