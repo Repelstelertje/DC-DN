@@ -1,31 +1,21 @@
 <?php
   $companyName = "Zoekertjes België";
+  require_once $base . '/../lib/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/config.php';
-  /**
-   * Convert a string to a URL friendly slug.
-   *
-   * @param string $text
-   * @return string
-   */
-  function slugify($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
-  }
-  // Control error visibility through an environment variable. By default
-  // errors are hidden in production unless APP_DEBUG is truthy.
-  $appDebug = getenv('APP_DEBUG');
-  if (filter_var($appDebug, FILTER_VALIDATE_BOOLEAN)) {
-    ini_set('display_errors', '1');
-    ini_set('display_startup_errors', '1');
-    error_reporting(E_ALL);
-  } else {
-    ini_set('display_errors', '0');
-    ini_set('display_startup_errors', '0');
-  }
+
+  configure_error_handling();
+  $baseUrl = get_base_url('https://zoekertjesbelgie.be');
+  list($canonicalUrl, $title) = generate_canonical(
+      $baseUrl,
+      $config['PROFILE_ENDPOINT'],
+      'daten-met',
+      $canonical ?? null,
+      $pageTitle ?? (defined('TITLE') ? TITLE : null),
+      $companyName
+  );
 ?>
 <!DOCTYPE html>
 <html lang="nl-BE">
@@ -56,60 +46,18 @@
 <meta name="msapplication-TileImage" content="img/fav/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 <?php
-    // Canonical URL logic
-    $baseUrl = "https://zoekertjesbelgie.be";
-    $canonicalUrl = isset($canonical) ? $canonical : $baseUrl; // Allow pages to override
-    $title = isset($pageTitle) ? $pageTitle : "Zoekertjes België"; // Default title
-
-    if (!isset($canonical) && isset($_GET['item'])) {
-        $canonicalUrl = $baseUrl . "/dating-" . htmlspecialchars($_GET['item']);
-        $title = "Dating " . htmlspecialchars($_GET['item']);
-    } else if (!isset($canonical) && isset($_GET['id'])) {
-        $id = preg_replace('/[^0-9]/', '', $_GET['id']);
-        $apiResponse = @file_get_contents("https://20fhbe2020.be/profile/get0/8/" . $id);
-        if ($apiResponse !== false) {
-            $data = json_decode($apiResponse, true);
-            if (isset($data['profile']['name'])) {
-                $profileName = $data['profile']['name'];
-                $slug = strtolower($profileName);
-                $slug = preg_replace('/\s+/', '-', $slug);
-                $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
-                $slug = trim($slug, '-');
-                $canonicalUrl = $baseUrl . '/daten-met-' . $slug;
-                $title = 'Daten met ' . htmlspecialchars($profileName);
-            } else {
-                $canonicalUrl = $baseUrl . "/profile?id=" . htmlspecialchars($_GET['id']);
-                $title = "Daten met " . htmlspecialchars($_GET['id']);
-            }
-        } else {
-            $canonicalUrl = $baseUrl . "/profile?id=" . htmlspecialchars($_GET['id']);
-            $title = "Daten met " . htmlspecialchars($_GET['id']);
-        }
-    } else if (!isset($canonical) && isset($_GET['slug'])) {
-        $slug = strtolower($_GET['slug']);
-        $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
-        $slug = trim($slug, '-');
-        $canonicalUrl = $baseUrl . '/daten-met-' . $slug;
-        $title = 'Daten met ' . str_replace('-', ' ', ucfirst($slug));
-    } else if (!isset($canonical) && isset($_GET['tip'])) {
-        $canonicalUrl = $baseUrl . "/datingtips-" . htmlspecialchars($_GET['tip']);
-        $title = "Datingtips " . htmlspecialchars($_GET['tip']);
-    }
-    // When no query parameters are present and no override, build canonical from script name
-    if (!isset($canonical) && empty($_GET)) {
-        $script = basename($_SERVER['SCRIPT_NAME']);
-        if ($script !== 'index.php') {
-            $canonicalUrl = $baseUrl . '/' . str_replace('.php', '', $script);
-        }
-    }
-    // Always append site name to the title when not already present
-    if (strpos($title, 'Zoekertjes België') === false) {
-        $title .= ' - Zoekertjes België';
-    }
+<?php
+    list($canonicalUrl, $title) = generate_canonical(
+        $baseUrl,
+        $config['PROFILE_ENDPOINT'],
+        'daten-met',
+        $canonical ?? null,
+        $pageTitle ?? (defined('TITLE') ? TITLE : null),
+        $companyName
+    );
     echo '<link rel="canonical" href="' . $canonicalUrl . '" >';
     echo '<title>' . $title . '</title>';
 ?>
-<?php
     // Stel standaardwaarden in
     $default_title = "Zoekertjes België - Vind en Plaats zoekertjes in België";
     $default_description = "Zoek en plaats eenvoudig oproepjes in heel België. Van dating tot vriendschap, ontdek de beste oproepjes op Zoekertjes België.";
@@ -178,34 +126,9 @@
             'description' => 'Plaats of bekijk datingoproepjes in West-Vlaanderen via Zoekertjes België en vind je date.',
             'image' => $baseUrl . 'img/belgie/westvlaanderen.jpg'
         ],
-    ];
-    // Zoek een match in de array
-    foreach ($og_pages as $keyword => $data) {
-        if (strpos($current_url, $keyword) !== false) {
-            $og_title = $data['title'];
-            $og_description = $data['description'];
-            $og_image = $data['image'];
-            $og_url = $current_url;
-            break;
-        }
-    }
-    // Override Open Graph description when a specific meta description is provided
-    if (isset($metaDescription) && !empty($metaDescription)) {
-        $og_description = htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8');
-    }
+    $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
+    render_og_meta($og);
 ?>
-<!-- Voeg dynamische Open Graph-tags toe in de HTML -->
-<meta property="og:title" content="<?php echo $og_title; ?>">
-<meta property="og:description" content="<?php echo $og_description; ?>">
-<meta property="og:url" content="<?php echo $og_url; ?>">
-<meta property="og:type" content="website">
-<meta property="og:image" content="<?php echo $og_image; ?>">
-<!-- Twitter Cards voor betere integratie met Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="<?php echo $og_title; ?>">
-<meta name="twitter:description" content="<?php echo $og_description; ?>">
-<meta name="twitter:image" content="<?php echo $og_image; ?>">
-<meta name="twitter:url" content="<?php echo $og_url; ?>">
 <!-- Bootstrap core CSS -->
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom styles for this template -->
