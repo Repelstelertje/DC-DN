@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define("TITLE", "Home");
 include $base . '/includes/array_prov.php';
 $pageTitle = 'Dating Nebenan – Finde Liebe Direkt Um Die Ecke';
 include $base . '/includes/header.php';

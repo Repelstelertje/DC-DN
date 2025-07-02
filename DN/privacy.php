@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Datenschutzerklärung');
 $canonical = 'https://datingnebenan.de/privacy';
 $pageTitle = 'Privacy Policy - Dating Nebenan';
 include $base . '/includes/header.php';

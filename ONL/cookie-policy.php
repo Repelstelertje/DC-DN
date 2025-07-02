@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Cookiebeleid');
 $canonical = 'https://oproepjesnederland.nl/cookie-policy';
 $pageTitle = 'Cookiebeleid | ';
 include $base . '/includes/header.php';

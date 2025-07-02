@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Cookie-Richtlinie');
 $canonical = 'https://datingnebenan.de/cookie-policy';
 $pageTitle = 'Cookie-Richtlinie | ';
 include $base . '/includes/header.php';
