@@ -28,11 +28,11 @@
 </div>
 </main>
 </div> <!-- /.oproepjes -->
-<script src="<?php echo $baseUrl; ?>/js/vendor/vue.2.5.13.min.js"></script>
-<script src="<?php echo $baseUrl; ?>/js/vendor/axios.0.17.1.min.js"></script>
-<script src="<?php echo $baseUrl; ?>/js/vendor/jquery.min.js"></script>
-<script src="<?php echo $baseUrl; ?>/js/vendor/bootstrap.bundle.min.js"></script>
-<script src="<?php echo $baseUrl; ?>/js/cookie-consent.js"></script>
+<script src="js/vendor/vue.2.5.13.min.js"></script>
+<script src="js/vendor/axios.0.17.1.min.js"></script>
+<script src="js/vendor/jquery.min.js"></script>
+<script src="js/vendor/bootstrap.bundle.min.js"></script>
+<script src="js/cookie-consent.js"></script>
 <script type="text/javascript">
   var topper = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg', '9.jpg', '10.jpg'];
   $('<a href="https://testars-consin.icu/543064f4-6080-4845-8f43-30f049426cdf?site={DC}"><img class="align-center" src="img/banners/' + topper[Math.floor(Math.random() * topper.length)] + '" alt="Exciting places to connect"></a>').appendTo('#top-banner');
