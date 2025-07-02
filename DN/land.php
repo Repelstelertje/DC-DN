@@ -31,7 +31,7 @@
 
     $metaDescription = isset($landInfo['meta']) ? $landInfo['meta'] : '';
 
-    define('TITLE', 'Dating ' . $landTitle);
+    $pageTitle = 'Dating ' . $landTitle;
     $base = __DIR__;
     include $base . '/includes/header.php';
 ?>

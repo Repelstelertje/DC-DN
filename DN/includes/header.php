@@ -7,17 +7,8 @@
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/config.php';
-  /**
-   * Convert a string to a URL friendly slug.
-   *
-   * @param string $text
-   * @return string
-   */
-  function slugify($text) {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
-  }
+  // Common helper functions
+  require_once $base . '/includes/utils.php';
   // Control error visibility through an environment variable. By default
   // errors are hidden in production unless APP_DEBUG is truthy.
   $appDebug = getenv('APP_DEBUG');

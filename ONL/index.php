@@ -1,6 +1,6 @@
 <?php
 $base = __DIR__;
-define("TITLE", "Home");
+$pageTitle = 'Home - Oproepjes Nederland';
 include $base . '/includes/header.php';
 ?>
 <div class="container">

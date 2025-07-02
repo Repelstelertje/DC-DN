@@ -1,6 +1,5 @@
 <?php
 $base = __DIR__;
-define('TITLE', 'Partnerlinks');
 $canonical = 'https://zoekertjesbelgie.be/partnerlinks';
 $pageTitle = 'Partnerlinks - Zoekertjes België';
 include $base . '/includes/header.php';
