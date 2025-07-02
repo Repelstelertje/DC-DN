@@ -1,9 +1,8 @@
 <?php 
-$base = __DIR__;
-define("TITLE", "Dating Tips");
 
-$canonical = 'https://datingcontact.co.uk/datingtips';
+$base = __DIR__;
 $pageTitle = 'Dating Tips - Dating Contact';
+$canonical = 'https://datingcontact.co.uk/datingtips';
 
 include $base . '/includes/array_tips.php';
 

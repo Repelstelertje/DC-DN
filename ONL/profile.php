@@ -1,6 +1,6 @@
 <?php
 $base = __DIR__;
-define("TITLE", "Daten");
+$pageTitle = 'Daten - Oproepjes Nederland';
 // Determine the referrer ID from the environment if provided
 $ref_id = getenv('REF_ID') ?: '';
 include $base . '/includes/header.php';

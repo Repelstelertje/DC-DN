@@ -13,7 +13,7 @@
       $config['PROFILE_ENDPOINT'],
       'daten-met',
       $canonical ?? null,
-      $pageTitle ?? (defined('TITLE') ? TITLE : null),
+      $pageTitle ?? null,
       $companyName
   );
 ?>
@@ -52,7 +52,7 @@
         $config['PROFILE_ENDPOINT'],
         'daten-met',
         $canonical ?? null,
-        $pageTitle ?? (defined('TITLE') ? TITLE : null),
+        $pageTitle ?? null,
         $companyName
     );
     echo '<link rel="canonical" href="' . $canonicalUrl . '" >';
