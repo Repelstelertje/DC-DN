@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/includes/array_prov.php';
 require __DIR__ . '/includes/array_tips.php';
-$config = include __DIR__ . '/config.php';
+$config = include __DIR__ . '/includes/config.php';
 
 $baseUrl = getenv('ONL_BASE_URL') ?: 'https://datingnebenan.de';
 
