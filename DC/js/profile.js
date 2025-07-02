@@ -74,13 +74,13 @@ var profiel= new Vue({
                     }
                     var slug = slugify(that.profile.name || '');
                     if(slug){
-                        var newUrl = '/date-with-' + slug;
+                        var slugUrl = '/date-with-' + slug;
                         var link = document.querySelector('link[rel=canonical]');
                         if(link){
-                            link.setAttribute('href', 'https://datingcontact.co.uk' + newUrl);
+                            link.setAttribute('href', 'https://datingcontact.co.uk' + slugUrl);
                         }
                         document.title = 'Date ' + that.profile.name;
-                        history.replaceState({}, '', newUrl);
+                        history.replaceState({}, '', slugUrl + '?id=' + that.profile_id);
                     }
                 })
                 .catch(function (error) {

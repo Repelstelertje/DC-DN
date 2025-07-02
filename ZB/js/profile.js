@@ -74,13 +74,13 @@ var profiel= new Vue({
                     }
                     var slug = slugify(that.profile.name || '');
                     if(slug){
-                        var newUrl = '/daten-met-' + slug;
+                        var slugUrl = '/daten-met-' + slug;
                         var link = document.querySelector('link[rel=canonical]');
                         if(link){
-                            link.setAttribute('href', 'https://zoekertjesbelgie.be' + newUrl);
+                            link.setAttribute('href', 'https://zoekertjesbelgie.be' + slugUrl);
                         }
                         document.title = 'Date ' + that.profile.name;
-                        history.replaceState({}, '', newUrl);
+                        history.replaceState({}, '', slugUrl + '?id=' + that.profile_id);
                     }
                 })
                 .catch(function (error) {
