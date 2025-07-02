@@ -3,11 +3,11 @@
     if (!isset($base)) {
     $base = dirname(__DIR__);
   }
-  require_once $base . '/../lib/site.php';
+  require_once $base . '/../includes/site.php';
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
-  $config = include $base . '/config.php';
+  $config = include $base . '/includes/config.php';
 
   configure_error_handling();
   $baseUrl = get_base_url('https://oproepjesnederland.nl');
