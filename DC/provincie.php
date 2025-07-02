@@ -1,7 +1,7 @@
 <?php
   $base = __DIR__;
   include $base . '/includes/array_prov.php';
-  include $base . '/includes/utils.php';
+  require_once $base . '/../includes/utils.php';
 
   $zoek = null;
   if (isset($_GET['item'])) {

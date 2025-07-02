@@ -2,6 +2,7 @@
 /**
  * Common utilities for site headers.
  */
+require_once __DIR__ . '/../includes/utils.php';
 function get_base_url(string $default): string {
     $url = getenv('ONL_BASE_URL');
     return $url !== false && $url !== '' ? $url : $default;
@@ -17,12 +18,6 @@ function configure_error_handling(): void {
         ini_set('display_errors', '0');
         ini_set('display_startup_errors', '0');
     }
-}
-
-function slugify(string $text): string {
-    $text = strtolower(trim($text));
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    return trim($text, '-');
 }
 
 function generate_canonical(string $baseUrl, string $apiEndpoint, string $slugPrefix, ?string $overrideUrl, ?string $titleOverride, string $siteName): array {

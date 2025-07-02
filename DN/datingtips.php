@@ -5,7 +5,7 @@ $canonical = 'https://datingnebenan.de/datingtips';
 
 include $base . '/includes/array_tips.php';
 
-require_once $base . '/includes/utils.php';
+require_once $base . '/../includes/utils.php';
 
 $param = $_GET['tip'] ?? $_GET['item'] ?? null;
 $tipSlug = null;

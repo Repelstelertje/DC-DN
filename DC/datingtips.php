@@ -6,7 +6,7 @@ $canonical = 'https://datingcontact.co.uk/datingtips';
 
 include $base . '/includes/array_tips.php';
 
-require_once $base . '/includes/utils.php';
+require_once $base . '/../includes/utils.php';
 
 $datingtip = 'datingtips';
 if(isset($_GET['item'])) {
