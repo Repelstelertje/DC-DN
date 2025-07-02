@@ -45,7 +45,6 @@
       echo '<script src="js/profile.js"></script>';
     } else {
       echo '<script src="js/oproepjes.js"></script>';
-      echo '<script>document.addEventListener("DOMContentLoaded", function(){createOproepjes("#oproepjes", typeof api_url !== "undefined" ? api_url : null);});</script>';
     }
   ?>
 </body>
