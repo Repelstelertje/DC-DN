@@ -21,3 +21,8 @@ Deployment for each site relies on three environment variables that override the
 
 If not set, each site falls back to the hard coded values in its own `config.php`. Specifying these variables per environment lets the same code run for all four directories (`DC`, `DN`, `ONL`, `ZB`).
 
+
+## Generating sitemaps
+
+Run `php generate_sitemap.php` inside any site directory (`DC`, `DN`, `ONL`, `ZB`) to rebuild its `sitemap.xml` file. You can automate this with a cron job to keep search indexes fresh.
+
