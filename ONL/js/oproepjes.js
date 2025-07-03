@@ -60,8 +60,11 @@ var oproepjes= new Vue({
             } else {
                 this.page= page;
             }
-            
-            
+            // Automatically scroll to the top after changing pages
+            if (typeof window !== 'undefined' && window.scrollTo) {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+
         }
     }
 });
