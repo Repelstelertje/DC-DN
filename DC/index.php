@@ -1,6 +1,6 @@
 <?php
 $base = __DIR__;
-$pageTitle = 'Home - Dating Contact';
+$pageTitle = 'Dating Contact: Dating Advertenties UK';
 include $base . '/includes/header.php';
 ?>
 <div class="container">
