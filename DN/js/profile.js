@@ -45,6 +45,7 @@ var profiel= new Vue({
                     if (that.profile.profile_image_big && that.profile.profile_image_big.indexOf('no_img_Vrouw.jpg') !== -1) {
                         that.profile.profile_image_big = 'img/fallback.svg';
                     }
+                    document.title = 'Date mit ' + that.profile.name + ' in ' + that.profile.city;
                 })
                 .catch(function (error) {
                     // console.log(error); // removed debugging statement
