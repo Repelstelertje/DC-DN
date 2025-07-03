@@ -2,6 +2,7 @@
 $base = __DIR__;
 include $base . '/includes/array_prov.php';
 $pageTitle = 'Dating Nebenan – Finde Liebe Direkt Um Die Ecke';
+include $base . '/includes/array_tips.php';
 include $base . '/includes/header.php';
 ?>
 <div class="container">
