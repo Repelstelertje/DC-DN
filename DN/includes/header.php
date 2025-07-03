@@ -5,6 +5,8 @@
   }
   require_once $base . '/includes/site.php';
   include $base . '/includes/nav_items.php';
+  // Load datingtips for navigation dropdown
+  require_once $base . '/includes/array_tips.php';
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
