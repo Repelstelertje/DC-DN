@@ -2,7 +2,7 @@
 $base = __DIR__;
 $pageTitle = 'Daten - Dating Contact';
 // Determine the referrer ID from the environment if provided
-$ref_id = getenv('REF_ID') ?: '';
+$ref_id = getenv('REF_ID') ?: '32';
 include $base . '/includes/header.php';
 $api_url = $config['PROFILE_ENDPOINT'];
 ?>
