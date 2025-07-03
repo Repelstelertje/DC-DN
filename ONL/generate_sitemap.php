@@ -6,6 +6,7 @@ $config = include __DIR__ . '/includes/config.php';
 $baseUrl = getenv('ONL_BASE_URL') ?: 'https://oproepjesnederland.nl';
 
 require_once __DIR__ . '/includes/utils.php';
+require_once __DIR__ . '/includes/sitemap.php';
 
 $urls = [];
 
@@ -48,16 +49,5 @@ foreach ($profilePaths as $url) {
     $urls[] = $url;
 }
 
-$xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>');
-$xml->addAttribute('xmlns', 'http://www.sitemaps.org/schemas/sitemap/0.9');
-$xml->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-$xml->addAttribute('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd');
-$lastMod = date('c');
-foreach ($urls as $loc) {
-    $url = $xml->addChild('url');
-    $url->addChild('loc', htmlspecialchars($loc, ENT_XML1));
-    $url->addChild('lastmod', $lastMod);
-}
-file_put_contents(__DIR__ . '/sitemap.xml', $xml->asXML());
-
-echo "Generated sitemap with " . count($urls) . " URLs\n";
+$added = merge_into_sitemap($urls, __DIR__ . '/sitemap.xml');
+echo "Added $added new URLs to sitemap\n";
