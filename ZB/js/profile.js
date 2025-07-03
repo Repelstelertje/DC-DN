@@ -79,7 +79,7 @@ var profiel= new Vue({
                         if(link){
                             link.setAttribute('href', 'https://zoekertjesbelgie.be' + slugUrl);
                         }
-                        document.title = 'Date ' + that.profile.name;
+                        document.title = 'Date met ' + that.profile.name + ' in ' + that.profile.city;
                         history.replaceState({}, '', slugUrl + '?id=' + that.profile_id);
                     }
                 })
