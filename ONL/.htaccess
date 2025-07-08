@@ -8,7 +8,7 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php [QSA]
 
 RewriteRule ^dating-([0-9a-zA-Z-]+) provincie.php?item=$1 [NC,L]
-RewriteRule ^datingtips-([0-9a-zA-Z-]+) datingtips.php?tip=$1 [NC,L]
+RewriteRule ^datingtips-([0-9a-zA-Z-]+) datingtips.php?item=$1 [NC,L]
 RewriteRule ^daten-met-([0-9a-zA-Z-]+)/?$ profile.php?slug=$1 [NC,L,QSA]
 
 ErrorDocument 404 /404.php
