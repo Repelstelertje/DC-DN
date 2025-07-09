@@ -10,6 +10,8 @@
   if (file_exists($base . '/includes/array_prov.php')) {
       include $base . '/includes/array_prov.php';
   }
+  // Expected province lists for this site
+  $provinceLists = ['provincies', 'de', 'at', 'ch'];
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
