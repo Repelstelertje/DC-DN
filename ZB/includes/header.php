@@ -26,7 +26,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <?php
-  $defaultDescription = "Gratis erotische zoekertjes voor België – ontdek nieuwe contacten en spannende dates op zoekertjesbelgie.be.";
+  $defaultDescription = "Zoek en plaats eenvoudig zoekertjes in heel België. Van dating tot vriendschap, ontdek de beste zoekertjes op Zoekertjes België.";
   $description = isset($metaDescription) ? $metaDescription : $defaultDescription;
 ?>
 <meta name="description" content="<?php echo htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); ?>">
@@ -50,7 +50,7 @@
 <?php
     // Stel standaardwaarden in
     $default_title = "Zoekertjes België - Vind en Plaats zoekertjes in België";
-    $default_description = "Zoek en plaats eenvoudig oproepjes in heel België. Van dating tot vriendschap, ontdek de beste oproepjes op Zoekertjes België.";
+    $default_description = "Zoek en plaats eenvoudig zoekertjes in heel België. Van dating tot vriendschap, ontdek de beste zoekertjes op Zoekertjes België.";
     $default_image = $baseUrl . "img/bg.jpg";
     $default_url = $baseUrl;
     // Dynamisch genereren van inhoud gebaseerd op de pagina-URL
@@ -63,57 +63,57 @@
     $og_pages = [
         'dating-antwerpen' => [
             'title' => 'Dating in Antwerpen - Vind je Match op Zoekertjes België',
-            'description' => 'Op zoek naar een date in Antwerpen? Plaats je oproepje of reageer op anderen via Zoekertjes België.',
+            'description' => 'Op zoek naar een date in Antwerpen? Plaats je zoekertje of reageer op anderen via Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/antwerpen.jpg'
         ],
         'dating-brussel' => [
             'title' => 'Dating in Brussel - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Vind singles in Brussel en plaats je datingoproep eenvoudig via Zoekertjes België.',
+            'description' => 'Vind singles in Brussel en plaats je datingzoekertje eenvoudig via Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/brussel.jpg'
         ],
         'dating-henegouwen' => [
             'title' => 'Dating in Henegouwen - Vind Je Date op Zoekertjes België',
-            'description' => 'Zoek of plaats een datingoproep in Henegouwen. Ontmoet nieuwe mensen via Zoekertjes België.',
+            'description' => 'Zoek of plaats een datingzoekertje in Henegouwen. Ontmoet nieuwe mensen via Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/henegouwen.jpg'
         ],
         'dating-limburg' => [
             'title' => 'Dating in Limburg - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Plaats of bekijk datingoproepjes in Limburg op Zoekertjes België en ontmoet nieuwe mensen.',
+            'description' => 'Plaats of bekijk datingzoekertjejes in Limburg op Zoekertjes België en ontmoet nieuwe mensen.',
             'image' => $baseUrl . 'img/belgie/limburg.jpg'
         ],
         'dating-luik' => [
             'title' => 'Dating in Luik - Vind je Match op Zoekertjes België',
-            'description' => 'Ontmoet singles in Luik en plaats je oproepje eenvoudig op Zoekertjes België.',
+            'description' => 'Ontmoet singles in Luik en plaats je zoekertje eenvoudig op Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/luik.jpg'
         ],
         'dating-luxemburg' => [
             'title' => 'Dating in Luxemburg - Vind Singles via Zoekertjes België',
-            'description' => 'Zoek of plaats een datingoproep in Luxemburg via Zoekertjes België en ontmoet nieuwe mensen.',
+            'description' => 'Zoek of plaats een datingzoekertje in Luxemburg via Zoekertjes België en ontmoet nieuwe mensen.',
             'image' => $baseUrl . 'img/belgie/luxemburg.jpg'
         ],
         'dating-namen' => [
             'title' => 'Dating in Namen - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Vind of plaats een datingoproep in Namen op Zoekertjes België en vergroot je kansen op een geslaagde date.',
+            'description' => 'Vind of plaats een datingzoekertje in Namen op Zoekertjes België en vergroot je kansen op een geslaagde date.',
             'image' => $baseUrl . 'img/belgie/namen.jpg'
         ],
         'dating-oost-vlaanderen' => [
             'title' => 'Dating in Oost-Vlaanderen - Vind je Date op Zoekertjes België',
-            'description' => 'Ontmoet singles in Oost-Vlaanderen en plaats eenvoudig je oproepje via Zoekertjes België.',
+            'description' => 'Ontmoet singles in Oost-Vlaanderen en plaats eenvoudig je zoekertje via Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/oostvlaanderen.jpg'
         ],
         'dating-vlaams-brabant' => [
             'title' => 'Dating in Vlaams-Brabant - Vind Singles via Zoekertjes België',
-            'description' => 'Zoek of plaats een datingoproep in Vlaams-Brabant op Zoekertjes België en ontmoet nieuwe mensen.',
+            'description' => 'Zoek of plaats een datingzoekertje in Vlaams-Brabant op Zoekertjes België en ontmoet nieuwe mensen.',
             'image' => $baseUrl . 'img/belgie/vlaamsbrabant.jpg'
         ],
         'dating-waals-brabant' => [
             'title' => 'Dating in Waals-Brabant - Vind je Match op Zoekertjes België',
-            'description' => 'Ontmoet singles in Waals-Brabant en plaats je datingoproep via Zoekertjes België.',
+            'description' => 'Ontmoet singles in Waals-Brabant en plaats je datingzoekertje via Zoekertjes België.',
             'image' => $baseUrl . 'img/belgie/waalsbrabant.jpg'
         ],
         'dating-west-vlaanderen' => [
             'title' => 'Dating in West-Vlaanderen - Ontmoet Nieuwe Mensen via Zoekertjes België',
-            'description' => 'Plaats of bekijk datingoproepjes in West-Vlaanderen via Zoekertjes België en vind je date.',
+            'description' => 'Plaats of bekijk datingzoekertjejes in West-Vlaanderen via Zoekertjes België en vind je date.',
             'image' => $baseUrl . 'img/belgie/westvlaanderen.jpg'
         ],
     ];
@@ -126,7 +126,7 @@
 <link href="css/style.css" rel="stylesheet">
 </head>
 <body id="top">
-    <div id="oproepjes">
+    <div id="zoekertjes">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">

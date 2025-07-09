@@ -52,7 +52,7 @@
 <?php
     // Stel standaardwaarden in
     $default_title = "Dating Nebenan";
-    $default_description = "Zoek en plaats eenvoudig oproepjes in heel België. Van dating tot vriendschap, ontdek de beste oproepjes op Zoekertjes België.";
+    $default_description = "Dating nebenan? Finde unkomplizierte Dates mit echten Singles aus deiner Nähe – diskret, direkt, ehrlich.";
     $default_image = $baseUrl . "/img/bg.jpg";
     $default_url = $baseUrl;
     // Dynamisch genereren van inhoud gebaseerd op de pagina-URL
