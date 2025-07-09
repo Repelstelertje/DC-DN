@@ -1,39 +1,51 @@
 <?php
 function merge_into_sitemap(array $urls, string $sitemapPath): int {
     $namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-    $existing = [];
-    $xml = null;
+
+    $doc = new DOMDocument('1.0', 'UTF-8');
+    $doc->preserveWhiteSpace = false;
+    $doc->formatOutput = true;
+
     if (file_exists($sitemapPath)) {
-        $xml = simplexml_load_file($sitemapPath);
-        if ($xml !== false) {
-            $xml->registerXPathNamespace('sm', $namespace);
-            foreach ($xml->xpath('//sm:url') as $node) {
-                $locNode = $node->xpath('sm:loc');
-                if ($locNode) {
-                    $existing[(string)$locNode[0]] = $node;
-                }
+        @$doc->load($sitemapPath);
+        if (!$doc->documentElement) {
+            // failed to load, create new document
+            $doc->loadXML('<urlset xmlns="' . $namespace . '"/>');
+        }
+    } else {
+        $doc->loadXML('<urlset xmlns="' . $namespace . '"/>');
+    }
+
+    $xpath = new DOMXPath($doc);
+    $xpath->registerNamespace('sm', $namespace);
+
+    $existing = [];
+    foreach ($xpath->query('//sm:url') as $node) {
+        $locNode = $xpath->query('sm:loc', $node)->item(0);
+        if ($locNode) {
+            $loc = $locNode->textContent;
+            if (isset($existing[$loc])) {
+                $node->parentNode->removeChild($node);
+                continue;
             }
-        } else {
-            $xml = null;
+            $existing[$loc] = true;
         }
     }
-    if ($xml === null) {
-        $xml = new SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><urlset></urlset>');
-        $xml->addAttribute('xmlns', $namespace);
-        $xml->addAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $xml->addAttribute('xsi:schemaLocation', $namespace . ' ' . $namespace . '/sitemap.xsd');
-    }
+
     $lastMod = date('c');
     $added = 0;
-    foreach ($urls as $loc) {
+    foreach (array_unique($urls) as $loc) {
         if (!isset($existing[$loc])) {
-            $url = $xml->addChild('url', null, $namespace);
-            $url->addChild('loc', htmlspecialchars($loc, ENT_XML1), $namespace);
-            $url->addChild('lastmod', $lastMod, $namespace);
+            $urlEl = $doc->createElementNS($namespace, 'url');
+            $urlEl->appendChild($doc->createElementNS($namespace, 'loc', $loc));
+            $urlEl->appendChild($doc->createElementNS($namespace, 'lastmod', $lastMod));
+            $doc->documentElement->appendChild($urlEl);
+            $existing[$loc] = true;
             $added++;
         }
     }
-    file_put_contents($sitemapPath, $xml->asXML());
+
+    $doc->save($sitemapPath);
     return $added;
 }
 ?>
