@@ -53,7 +53,7 @@
 <?php
     // Stel standaardwaarden in
     $default_title = "Oproepjes Nederland - Dé plek voor oproepjes in Nederland";
-    $default_description = "Vind en plaats oproepjes in heel Nederland. Eenvoudig platform om jouw oproepje snel en gemakkelijk te delen.";
+    $default_description = "Plaats en ontdek spannende oproepjes op oproepjesnederland.nl – dé plek voor discreet contact in jouw regio.";
     $default_image = $baseUrl . "img/bg.jpg";
     $default_url = $baseUrl;
     // Dynamisch genereren van inhoud gebaseerd op de pagina-URL

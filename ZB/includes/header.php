@@ -29,7 +29,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <?php
-  $defaultDescription = "Gratis erotische zoekertjes voor België – ontdek nieuwe contacten en spannende dates op zoekertjesbelgie.be.";
+  $defaultDescription = "Zoek en plaats eenvoudig zoekertjes in heel België. Van dating tot vriendschap, ontdek de beste zoekertjes op Zoekertjes België.";
   $description = isset($metaDescription) ? $metaDescription : $defaultDescription;
 ?>
 <meta name="description" content="<?php echo htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); ?>">
@@ -53,7 +53,7 @@
 <?php
     // Stel standaardwaarden in
     $default_title = "Zoekertjes België - Vind en Plaats zoekertjes in België";
-    $default_description = "Zoek en plaats eenvoudig oproepjes in heel België. Van dating tot vriendschap, ontdek de beste oproepjes op Zoekertjes België.";
+    $default_description = "Zoek en plaats eenvoudig zoekertjes in heel België. Van dating tot vriendschap, ontdek de beste zoekertjes op Zoekertjes België.";
     $default_image = $baseUrl . "img/bg.jpg";
     $default_url = $baseUrl;
     // Dynamisch genereren van inhoud gebaseerd op de pagina-URL
@@ -84,7 +84,7 @@
 <link href="css/style.css" rel="stylesheet">
 </head>
 <body id="top">
-    <div id="oproepjes">
+    <div id="zoekertjes">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">

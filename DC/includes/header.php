@@ -54,7 +54,7 @@
 <?php
     // Stel standaardwaarden in
     $default_title = "Dating Contact UK";
-    $default_description = "Free dating - Are you looking for a partner or a fun free date? Here you will find more than 10,000 singles. Registration is 100% free.";
+    $default_description = "Join datingcontact.co.uk for exciting UK hookups and casual dating – meet real people who want real fun.";
     $default_image = $baseUrl . "img/bg.jpg";
     $default_url = $canonicalUrl;
     // Dynamisch genereren van inhoud gebaseerd op de pagina-URL
