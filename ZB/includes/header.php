@@ -5,6 +5,9 @@
   }
   require_once $base . '/includes/site.php';
   include $base . '/includes/nav_items.php';
+  if (file_exists($base . '/includes/array_prov.php')) {
+      include $base . '/includes/array_prov.php';
+  }
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
@@ -60,63 +63,18 @@
     $og_description = $default_description;
     $og_image = $default_image;
     $og_url = $canonicalUrl;
-    $og_pages = [
-        'dating-antwerpen' => [
-            'title' => 'Dating in Antwerpen - Vind je Match op Zoekertjes België',
-            'description' => 'Op zoek naar een date in Antwerpen? Plaats je zoekertje of reageer op anderen via Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/antwerpen.jpg'
-        ],
-        'dating-brussel' => [
-            'title' => 'Dating in Brussel - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Vind singles in Brussel en plaats je datingzoekertje eenvoudig via Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/brussel.jpg'
-        ],
-        'dating-henegouwen' => [
-            'title' => 'Dating in Henegouwen - Vind Je Date op Zoekertjes België',
-            'description' => 'Zoek of plaats een datingzoekertje in Henegouwen. Ontmoet nieuwe mensen via Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/henegouwen.jpg'
-        ],
-        'dating-limburg' => [
-            'title' => 'Dating in Limburg - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Plaats of bekijk datingzoekertjejes in Limburg op Zoekertjes België en ontmoet nieuwe mensen.',
-            'image' => $baseUrl . 'img/belgie/limburg.jpg'
-        ],
-        'dating-luik' => [
-            'title' => 'Dating in Luik - Vind je Match op Zoekertjes België',
-            'description' => 'Ontmoet singles in Luik en plaats je zoekertje eenvoudig op Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/luik.jpg'
-        ],
-        'dating-luxemburg' => [
-            'title' => 'Dating in Luxemburg - Vind Singles via Zoekertjes België',
-            'description' => 'Zoek of plaats een datingzoekertje in Luxemburg via Zoekertjes België en ontmoet nieuwe mensen.',
-            'image' => $baseUrl . 'img/belgie/luxemburg.jpg'
-        ],
-        'dating-namen' => [
-            'title' => 'Dating in Namen - Ontmoet Singles via Zoekertjes België',
-            'description' => 'Vind of plaats een datingzoekertje in Namen op Zoekertjes België en vergroot je kansen op een geslaagde date.',
-            'image' => $baseUrl . 'img/belgie/namen.jpg'
-        ],
-        'dating-oost-vlaanderen' => [
-            'title' => 'Dating in Oost-Vlaanderen - Vind je Date op Zoekertjes België',
-            'description' => 'Ontmoet singles in Oost-Vlaanderen en plaats eenvoudig je zoekertje via Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/oostvlaanderen.jpg'
-        ],
-        'dating-vlaams-brabant' => [
-            'title' => 'Dating in Vlaams-Brabant - Vind Singles via Zoekertjes België',
-            'description' => 'Zoek of plaats een datingzoekertje in Vlaams-Brabant op Zoekertjes België en ontmoet nieuwe mensen.',
-            'image' => $baseUrl . 'img/belgie/vlaamsbrabant.jpg'
-        ],
-        'dating-waals-brabant' => [
-            'title' => 'Dating in Waals-Brabant - Vind je Match op Zoekertjes België',
-            'description' => 'Ontmoet singles in Waals-Brabant en plaats je datingzoekertje via Zoekertjes België.',
-            'image' => $baseUrl . 'img/belgie/waalsbrabant.jpg'
-        ],
-        'dating-west-vlaanderen' => [
-            'title' => 'Dating in West-Vlaanderen - Ontmoet Nieuwe Mensen via Zoekertjes België',
-            'description' => 'Plaats of bekijk datingzoekertjejes in West-Vlaanderen via Zoekertjes België en vind je date.',
-            'image' => $baseUrl . 'img/belgie/westvlaanderen.jpg'
-        ],
-    ];
+    $og_pages = [];
+    foreach (['provincies', 'de', 'at', 'ch'] as $listName) {
+        if (isset($$listName) && is_array($$listName)) {
+            foreach ($$listName as $slug => $data) {
+                $og_pages['dating-' . $slug] = [
+                    'title' => $data['title'] ?? $og_title,
+                    'description' => $data['meta'] ?? $og_description,
+                    'image' => $default_image,
+                ];
+            }
+        }
+    }
     $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
     render_og_meta($og);
 ?>

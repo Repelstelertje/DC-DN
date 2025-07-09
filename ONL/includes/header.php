@@ -5,6 +5,9 @@
   }
   require_once $base . '/includes/site.php';
   include $base . '/includes/nav_items.php';
+  if (file_exists($base . '/includes/array_prov.php')) {
+      include $base . '/includes/array_prov.php';
+  }
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
@@ -60,68 +63,18 @@
     $og_description = $default_description;
     $og_image = $default_image;
     $og_url = $default_url;
-    $og_pages = [
-        'dating-drenthe' => [
-            'title' => 'Dating in Drenthe - Vind je date op Oproepjes Nederland',
-            'description' => 'Op zoek naar een date in Drenthe? Plaats je oproepje of reageer op een oproep via Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/drenthe.png'
-        ],
-        'dating-flevoland' => [
-            'title' => 'Dating in Flevoland - Ontmoet singles via Oproepjes Nederland',
-            'description' => 'Vind singles in Flevoland en plaats je datingoproep eenvoudig op Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/flevoland.png'
-        ],
-        'dating-friesland' => [
-            'title' => 'Dating in Friesland - Vind je match via Oproepjes Nederland',
-            'description' => 'Zoek of plaats een datingoproep in Friesland op Oproepjes Nederland. Dé plek voor contact en nieuwe ontmoetingen.',
-            'image' => $baseUrl . '/img/nederland/friesland.png'
-        ],
-        'dating-gelderland' => [
-            'title' => 'Dating in Gelderland - Oproepjes Nederland voor singles',
-            'description' => 'Ontmoet nieuwe mensen in Gelderland. Plaats eenvoudig je datingoproep op Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/gelderland.png'
-        ],
-        'dating-groningen' => [
-            'title' => 'Dating in Groningen - Vind je match op Oproepjes Nederland',
-            'description' => 'Zoek of plaats een datingoproep in Groningen via Oproepjes Nederland. Eenvoudig, snel en gratis.',
-            'image' => $baseUrl . '/img/nederland/groningen.png'
-        ],
-        'dating-limburg' => [
-            'title' => 'Dating in Limburg - Ontmoet singles via Oproepjes Nederland',
-            'description' => 'Op zoek naar een date in Limburg? Plaats of bekijk oproepjes via Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/limburg.png'
-        ],
-        'dating-noord-brabant' => [
-            'title' => 'Dating in Noord-Brabant - Vind jouw match via Oproepjes Nederland',
-            'description' => 'Zoek of plaats een datingoproep in Noord-Brabant via Oproepjes Nederland. Ontmoet singles bij jou in de buurt.',
-            'image' => $baseUrl . '/img/nederland/noordbrabant.png'
-        ],
-        'dating-noord-holland' => [
-            'title' => 'Dating in Noord-Holland - Ontmoet singles via Oproepjes Nederland',
-            'description' => 'Vind singles in Noord-Holland en plaats je datingoproep eenvoudig op Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/noordholland.png'
-        ],
-        'dating-overijssel' => [
-            'title' => 'Dating in Overijssel - Vind je match via Oproepjes Nederland',
-            'description' => 'Ontmoet nieuwe mensen in Overijssel. Plaats je oproepje op Oproepjes Nederland en vind je date.',
-            'image' => $baseUrl . '/img/nederland/overijssel.png'
-        ],
-        'dating-utrecht' => [
-            'title' => 'Dating in Utrecht - Plaats of zoek oproepjes op Oproepjes Nederland',
-            'description' => 'Zoek of plaats een datingoproep in Utrecht via Oproepjes Nederland. Vind jouw match eenvoudig.',
-            'image' => $baseUrl . '/img/nederland/utrecht.png'
-        ],
-        'dating-zeeland' => [
-            'title' => 'Dating in Zeeland - Vind je date via Oproepjes Nederland',
-            'description' => 'Ontmoet singles in Zeeland. Plaats of bekijk datingoproepjes via Oproepjes Nederland.',
-            'image' => $baseUrl . '/img/nederland/zeeland.png'
-        ],
-        'dating-zuid-holland' => [
-            'title' => 'Dating in Zuid-Holland - Vind je match via Oproepjes Nederland',
-            'description' => 'Zoek of plaats een datingoproep in Zuid-Holland via Oproepjes Nederland en ontmoet nieuwe mensen.',
-            'image' => $baseUrl . '/img/nederland/zuidholland.png'
-        ],
-    ];
+    $og_pages = [];
+    foreach (['provincies', 'de', 'at', 'ch'] as $listName) {
+        if (isset($$listName) && is_array($$listName)) {
+            foreach ($$listName as $slug => $data) {
+                $og_pages['dating-' . $slug] = [
+                    'title' => $data['title'] ?? $og_title,
+                    'description' => $data['meta'] ?? $og_description,
+                    'image' => $default_image,
+                ];
+            }
+        }
+    }
     $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
     render_og_meta($og);
 ?>
