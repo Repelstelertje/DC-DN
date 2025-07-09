@@ -86,7 +86,7 @@
 <link href="css/style.css" rel="stylesheet">
 </head>
 <body id="top">
-    <div id="zoekertjes">
+    <div id="oproepjes">
         <!-- Navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
