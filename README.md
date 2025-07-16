@@ -4,7 +4,7 @@ This repository hosts multiple sites. Each site now commits third-party assets l
 
 ## Asset structure
 
-For every site (`DC`, `DN`, `ONL`, `ZB`) vendor assets are stored in:
+For every site (`18D`, `S55`, `SD`, `DC`, `DN`, `ONL`, `ZB`) vendor assets are stored in:
 
 - `vendor/` – CSS and JS from Bootstrap and jQuery.
 - `js/vendor/` – Minified JS utilities (Vue, Axios, etc.).
@@ -19,10 +19,10 @@ Deployment for each site relies on three environment variables that override the
 - `BASE_API_URL` – base URL of the remote API serving profile data and banners.
 - `APP_DEBUG` – set to `true` to enable PHP error reporting during development.
 
-If not set, each site falls back to the hard coded values in its own `config.php`. Specifying these variables per environment lets the same code run for all four directories (`DC`, `DN`, `ONL`, `ZB`).
+If not set, each site falls back to the hard coded values in its own `config.php`. Specifying these variables per environment lets the same code run for all seven directories.
 
 
 ## Generating sitemaps
 
-Run `php generate_sitemap.php` inside any site directory (`DC`, `DN`, `ONL`, `ZB`) to rebuild its `sitemap.xml` file. You can automate this with a cron job to keep search indexes fresh.
+Run `php generate_sitemap.php` inside any site directory to rebuild its `sitemap.xml` file. You can automate this with a cron job to keep search indexes fresh.
 
