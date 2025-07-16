@@ -10,7 +10,7 @@ require __DIR__ . '/includes/arr_prov_at.php';
 require __DIR__ . '/includes/arr_prov_ch.php';
 require __DIR__ . '/includes/array_tips.php';
 
-$baseUrl = $BASE_URL;
+$baseUrl = getenv('ONL_BASE_URL') ?: $BASE_URL;
 
 $profilePrefix = 'date-';
 $slugPrefix = 'sexdate-';
