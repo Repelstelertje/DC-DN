@@ -1,10 +1,14 @@
 <?php
-$BASE_URL = getenv('BASE_URL') ?: 'https://18date.net';
-// Configuration for API endpoints
-$API_BASE_DEFAULT = getenv('API_BASE_URL_DEFAULT') ?: 'https://16hl07csd16.nl';
-$API_BASE_BE = getenv('API_BASE_URL_BE') ?: 'https://20fhbe2020.be';
-$API_BASE_UK = getenv('API_BASE_URL_UK') ?: 'https://22mlf09mds22.com';
-$API_BASE_DE = getenv('API_BASE_URL_DE') ?: 'https://23mlf01ccde23.com';
+$BASE_URL = getenv('ONL_BASE_URL') ?: 'https://18date.net';
+// Configuration for API endpoints. When BASE_API_URL is defined it overrides the
+// country specific values so a single environment variable can be used just
+// like for the other sites.
+$commonApi      = getenv('BASE_API_URL');
+$API_BASE_DEFAULT = getenv('API_BASE_URL_DEFAULT')
+    ?: ($commonApi ?: 'https://16hl07csd16.nl');
+$API_BASE_BE = getenv('API_BASE_URL_BE') ?: ($commonApi ?: 'https://20fhbe2020.be');
+$API_BASE_UK = getenv('API_BASE_URL_UK') ?: ($commonApi ?: 'https://22mlf09mds22.com');
+$API_BASE_DE = getenv('API_BASE_URL_DE') ?: ($commonApi ?: 'https://23mlf01ccde23.com');
 
 function api_base($country = '') {
     global $API_BASE_DEFAULT, $API_BASE_BE, $API_BASE_UK, $API_BASE_DE;
