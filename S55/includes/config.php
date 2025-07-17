@@ -1,5 +1,7 @@
 <?php
 $BASE_URL = getenv('ONL_BASE_URL') ?: 'https://sex55.net';
+$PROFILE_PREFIX = 'date-';
+$SLUG_PREFIX = 'sexdate-';
 $commonApi      = getenv('BASE_API_URL');
 $API_BASE_DEFAULT = getenv('API_BASE_URL_DEFAULT')
     ?: ($commonApi ?: 'https://16hl07csd16.nl');

@@ -12,12 +12,8 @@ require __DIR__ . '/includes/array_tips.php';
 
 $baseUrl = getenv('ONL_BASE_URL') ?: $BASE_URL;
 
-$profilePrefix = 'date-';
-$slugPrefix = 'sexdate-';
-if (strpos($baseUrl, 'shemaledaten.net') !== false) {
-    $profilePrefix = 'shemale-';
-    $slugPrefix = 'shemale-';
-}
+$profilePrefix = $PROFILE_PREFIX;
+$slugPrefix = $SLUG_PREFIX;
 
 $urls = [];
 $static = ['', 'datingtips', 'partnerlinks', 'privacy', 'cookie-policy'];
