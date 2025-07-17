@@ -1,5 +1,7 @@
 <?php
 $BASE_URL = getenv('ONL_BASE_URL') ?: 'https://shemaledaten.net';
+$PROFILE_PREFIX = 'shemale-';
+$SLUG_PREFIX = 'shemale-';
 $commonApi      = getenv('BASE_API_URL');
 $API_BASE_DEFAULT = getenv('API_BASE_URL_DEFAULT')
     ?: ($commonApi ?: 'https://16hl07csd16.nl');

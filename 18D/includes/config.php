@@ -1,5 +1,7 @@
 <?php
 $BASE_URL = getenv('ONL_BASE_URL') ?: 'https://18date.net';
+$PROFILE_PREFIX = 'date-';
+$SLUG_PREFIX = 'sexdate-';
 // Configuration for API endpoints. When BASE_API_URL is defined it overrides the
 // country specific values so a single environment variable can be used just
 // like for the other sites.
