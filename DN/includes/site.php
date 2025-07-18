@@ -30,11 +30,19 @@ function generate_canonical(string $baseUrl, string $apiEndpoint, string $slugPr
         $title = 'Dating ' . htmlspecialchars($_GET['item']);
     } elseif (isset($_GET['slug'])) {
         $slug = slugify($_GET['slug']);
-        $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $canonicalUrl .= '?id=' . $_GET['id'];
+        if ($slug !== '') {
+            $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
+            if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $canonicalUrl .= '?id=' . $_GET['id'];
+            }
+            $title = $titlePrefix . ucwords(str_replace('-', ' ', $slug));
+        } else {
+            $canonicalUrl = $baseUrl . '/profile';
+            if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+                $canonicalUrl .= '?id=' . $_GET['id'];
+            }
+            $title = $titlePrefix . ($_GET['id'] ?? '');
         }
-        $title = $titlePrefix . ucwords(str_replace('-', ' ', $slug));
     } elseif (isset($_GET['id'])) {
         $id = preg_replace('/[^0-9]/', '', $_GET['id']);
         $apiResponse = @file_get_contents($apiEndpoint . $id);
@@ -43,7 +51,11 @@ function generate_canonical(string $baseUrl, string $apiEndpoint, string $slugPr
             if (isset($data['profile']['name'])) {
                 $profileName = $data['profile']['name'];
                 $slug = slugify($profileName);
-                $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
+                if ($slug !== '') {
+                    $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
+                } else {
+                    $canonicalUrl = $baseUrl . '/profile?id=' . htmlspecialchars($_GET['id']);
+                }
                 $title = $titlePrefix . htmlspecialchars($profileName);
             } else {
                 $canonicalUrl = $baseUrl . '/profile?id=' . htmlspecialchars($_GET['id']);
