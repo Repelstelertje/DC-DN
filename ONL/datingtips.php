@@ -1,27 +1,26 @@
 <?php 
 $base = __DIR__;
-$pageTitle = 'Datingtips - Oproepjes Nederland';
-$canonical = 'https://oproepjesnederland.nl/datingtips';
+$datingtip = null;
 
 include $base . '/includes/array_tips.php';
 
 require_once $base . '/includes/utils.php';
-
-$datingtip = 'datingtips';
-if(isset($_GET['item'])) {
-        $candidate = strip_bad_chars($_GET['item']);
-        if (isset($datingtips[$candidate])) {
-                $datingtip = $candidate;
-        }
+if (isset($_GET['item'])) {
+    $candidate = strip_bad_chars($_GET['item']);
+    if (isset($datingtips[$candidate])) {
+        $datingtip = $candidate;
+    }
 }
 $tips = $datingtips[$datingtip] ?? null;
 
 if (!$tips) {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-        include $base . '/404.php';
-        exit;
+    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    include $base . '/404.php';
+    exit;
 }
 
+$pageTitle = $tips['title'];
+$canonical = 'https://oproepjesnederland.nl/datingtips-' . $datingtip;
 $metaDescription = $tips['meta'];
 include $base . '/includes/header.php';
 ?>
