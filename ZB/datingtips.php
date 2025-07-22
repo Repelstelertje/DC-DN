@@ -22,6 +22,8 @@ if (!$tips) {
         exit;
 }
 
+$pageTitle = $tips['title'];
+$canonical = 'https://zoekertjesbelgie.be/datingtips-' . $datingtip;
 $metaDescription = $tips['meta'];
 include $base . '/includes/header.php';
 ?>
