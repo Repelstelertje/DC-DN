@@ -24,6 +24,11 @@ function merge_into_sitemap(array $urls, string $sitemapPath): int {
         $locNode = $xpath->query('sm:loc', $node)->item(0);
         if ($locNode) {
             $loc = $locNode->textContent;
+            // Remove legacy profile URLs that lack the required id parameter
+            if (strpos($loc, '/daten-met-') !== false && strpos($loc, '?id=') === false) {
+                $node->parentNode->removeChild($node);
+                continue;
+            }
             if (isset($existing[$loc])) {
                 $node->parentNode->removeChild($node);
                 continue;

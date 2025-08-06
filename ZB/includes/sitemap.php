@@ -27,6 +27,11 @@ function merge_into_sitemap(array $urls, string $sitemapPath): int {
             $node->parentNode->removeChild($node);
             continue;
         }
+        // Remove legacy profile URLs that lack the required id parameter
+        if (strpos($loc, '/daten-met-') !== false && strpos($loc, '?id=') === false) {
+            $node->parentNode->removeChild($node);
+            continue;
+        }
         if (isset($existing[$loc])) {
             $node->parentNode->removeChild($node);
             continue;
