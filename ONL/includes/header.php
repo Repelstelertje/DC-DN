@@ -8,8 +8,6 @@
   if (file_exists($base . '/includes/array_prov.php')) {
       include $base . '/includes/array_prov.php';
   }
-  // Expected province lists for this site
-  $provinceLists = ['provincies'];
   // Config is required for API lookups when rendering profile pages
   // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
@@ -66,7 +64,7 @@
     $og_image = $default_image;
     $og_url = $default_url;
     $og_pages = [];
-    foreach (['provincies'] as $listName) {
+    foreach (['provincies', 'de', 'at', 'ch'] as $listName) {
         if (isset($$listName) && is_array($$listName)) {
             foreach ($$listName as $slug => $data) {
                 $og_pages['dating-' . $slug] = [
