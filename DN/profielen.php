@@ -90,9 +90,8 @@ include $base . '/includes/header.php';
                 <?php endif; ?>
             </ul>
         </nav>
+        <?php endif; ?>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
-<?php endif; ?>
-</div>
 </div>
 <?php include $base . '/includes/footer.php'; ?>
