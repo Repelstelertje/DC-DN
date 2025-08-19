@@ -47,16 +47,16 @@ if (preg_match('#^/date-mit-([^/]+)$#', $path, $m)) {
     return;
 }
 
-// /datingtips-<slug> => datingtips.php?tip=<slug>
-if (preg_match('#^/datingtips-([^/]+)$#', $path, $m)) {
+// /datingtipps-<slug> => datingtips.php?tip=<slug>
+if (preg_match('#^/datingtipps-([^/]+)$#', $path, $m)) {
     $_GET['tip'] = $m[1];
     include __DIR__ . '/datingtips.php';
     return;
 }
 
-// /datingtips => datingtips.php?tip=datingtips
-if ($path === '/datingtips') {
-    $_GET['tip'] = 'datingtips';
+// /datingtipps => datingtips.php?tip=datingtipps
+if ($path === '/datingtipps') {
+    $_GET['tip'] = 'datingtipps';
     include __DIR__ . '/datingtips.php';
     return;
 }
