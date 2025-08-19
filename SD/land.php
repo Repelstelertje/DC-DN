@@ -105,6 +105,13 @@ include $base . '/includes/header.php';
     </div>
     <?php } ?>
     </div>
+    <?php echo related_profiles_links($provArray, function($s) use ($country) {
+        $url = 'shemale-' . $s;
+        if (($country === 'nl' || $country === 'be') && $s === 'limburg') {
+            $url .= '-' . $country;
+        }
+        return $url;
+    }); ?>
     <div class="jumbotron">
         <?php echo $landInfo['tekst']; ?>
     </div>
