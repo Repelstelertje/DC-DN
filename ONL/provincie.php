@@ -63,6 +63,7 @@
       </li>
     </ul>
   </nav>
+<?php echo related_profiles_links($provincies, function($slug) use ($baseUrl) { return $baseUrl . '/dating-' . $slug; }, $provincie ?? null); ?>
 <div class="container">
   <div class="jumbotron">
     <?php echo $zoek['tekst']; ?>

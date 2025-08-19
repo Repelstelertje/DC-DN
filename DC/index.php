@@ -1,5 +1,6 @@
 <?php
 $base = __DIR__;
+include $base . '/includes/array_prov.php';
 $pageTitle = 'Dating Contact: Dating Advertenties UK';
 include $base . '/includes/array_tips.php';
 include $base . '/includes/header.php';
@@ -57,6 +58,7 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
+    <?php echo related_profiles_links($provincies, function($slug) use ($baseUrl) { return $baseUrl . '/dating-' . $slug; }); ?>
     <div class="jumbotron">
         <h2  class="text-center">Our Features</h2>
         <p>At <a href="index.php">Dating Contact</a>, we pride ourselves on connecting singles throughout all regions of the UK — from the vibrant atmosphere of England's cities to the tranquil beauty of Welsh valleys and the historic charm of Scotland's towns. Our tailored features include:</p>

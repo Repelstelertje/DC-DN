@@ -1,5 +1,6 @@
 <?php
 $base = __DIR__;
+include $base . '/includes/array_prov.php';
 $pageTitle = 'Home - Oproepjes Nederland';
 include $base . '/includes/array_tips.php';
 include $base . '/includes/header.php';
@@ -57,6 +58,7 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
+    <?php echo related_profiles_links($provincies, function($slug) use ($baseUrl) { return $baseUrl . '/dating-' . $slug; }); ?>
     <div class="jumbotron">
         <h2>Gratis datingsite</h2>
         <hr>
