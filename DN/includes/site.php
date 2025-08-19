@@ -54,8 +54,14 @@ function generate_canonical(string $baseUrl, string $apiEndpoint, string $slugPr
             $title = $titlePrefix . htmlspecialchars($_GET['id']);
         }
     } elseif (isset($_GET['tip'])) {
-        $canonicalUrl = $baseUrl . '/datingtips-' . htmlspecialchars($_GET['tip']);
-        $title = 'Datingtips ' . htmlspecialchars($_GET['tip']);
+        $tip = htmlspecialchars($_GET['tip']);
+        if ($tip === 'datingtipps') {
+            $canonicalUrl = $baseUrl . '/datingtipps';
+            $title = 'Datingtipps';
+        } else {
+            $canonicalUrl = $baseUrl . '/datingtipps-' . $tip;
+            $title = 'Datingtipps ' . $tip;
+        }
     } elseif (empty($_GET)) {
         $script = basename($_SERVER['SCRIPT_NAME']);
         if ($script !== 'index.php') {

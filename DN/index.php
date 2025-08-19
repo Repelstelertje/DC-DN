@@ -103,11 +103,11 @@ include $base . '/includes/header.php';
     <div class="jumbotron text-center">
         <h2>Dating-Tipps</h2>
         <?php foreach ($datingtips as $slug => $item) {
-            if (empty($slug) || empty($item['name'])) {
+            if (empty($slug) || empty($item['name']) || $slug === 'datingtipps') {
                 continue;
             }
         ?>
-        <a href="datingtips-<?php echo $slug; ?>" class="btn btn-primary btn-tips"><?php echo $item['name']; ?></a>
+        <a href="datingtipps-<?php echo $slug; ?>" class="btn btn-primary btn-tips"><?php echo $item['name']; ?></a>
         <?php } ?>
     </div>
     <div id="footer-banner"></div>
