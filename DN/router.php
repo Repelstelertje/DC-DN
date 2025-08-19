@@ -54,13 +54,19 @@ if (preg_match('#^/datingtips-([^/]+)$#', $path, $m)) {
     return;
 }
 
+// /datingtips => datingtips.php?tip=datingtips
+if ($path === '/datingtips') {
+    $_GET['tip'] = 'datingtips';
+    include __DIR__ . '/datingtips.php';
+    return;
+}
+
 $routes = [
     '/'              => 'index.php',
     '/index'         => 'index.php',
     '/partnerlinks'  => 'partnerlinks.php',
     '/privacy'       => 'privacy.php',
     '/cookie-policy' => 'cookie-policy.php',
-    '/datingtips'    => 'datingtips.php',
     '/land'          => 'land.php',
 ];
 
