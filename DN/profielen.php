@@ -7,24 +7,31 @@ $config = include $base . '/includes/config.php';
 $perPage = 120;
 $page = isset($_GET['page']) && ctype_digit($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
 
-$cacheFile = sys_get_temp_dir() . '/dn_profiles_cache.json';
+$cacheFile = sys_get_temp_dir() . '/dn_profiles_cache_' . $page . '.json';
 $cacheTtl = 300; // 5 minutes
 $profiles = [];
+$totalProfiles = 0;
+$totalPages = 1;
 $apiError = false;
 
 if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTtl)) {
     $data = json_decode(@file_get_contents($cacheFile), true);
     if (isset($data['profiles']) && is_array($data['profiles'])) {
         $profiles = $data['profiles'];
+        $totalProfiles = (int)($data['total'] ?? $data['total_profiles'] ?? 0);
+        $totalPages = (int)($data['total_pages'] ?? ($totalProfiles > 0 ? (int)ceil($totalProfiles / $perPage) : 1));
     }
 }
 
 if (!$profiles) {
-    $response = @file_get_contents($config['BANNER_ENDPOINT']);
+    $apiUrl = $config['BASE_API_URL'] . '/profiles?page=' . $page . '&per_page=' . $perPage;
+    $response = @file_get_contents($apiUrl);
     if ($response !== false) {
         $data = json_decode($response, true);
         if (isset($data['profiles']) && is_array($data['profiles'])) {
             $profiles = $data['profiles'];
+            $totalProfiles = (int)($data['total'] ?? $data['total_profiles'] ?? 0);
+            $totalPages = (int)($data['total_pages'] ?? ($totalProfiles > 0 ? (int)ceil($totalProfiles / $perPage) : 1));
             @file_put_contents($cacheFile, $response);
         } else {
             $apiError = true;
@@ -34,10 +41,9 @@ if (!$profiles) {
     }
 }
 
-$totalProfiles = count($profiles);
-$totalPages = $totalProfiles > 0 ? (int)ceil($totalProfiles / $perPage) : 1;
-$startIndex = ($page - 1) * $perPage;
-$profilesSlice = array_slice($profiles, $startIndex, $perPage);
+$totalProfiles = $totalProfiles ?: count($profiles);
+$totalPages = $totalPages > 0 ? $totalPages : ($totalProfiles > 0 ? (int)ceil($totalProfiles / $perPage) : 1);
+$profilesSlice = array_slice($profiles, 0, $perPage);
 
 $baseUrl = get_base_url('https://datingnebenan.de');
 $canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
