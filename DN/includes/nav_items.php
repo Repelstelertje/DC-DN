@@ -221,7 +221,7 @@ $navCountries = array(
 $navItems2 = array(
 
         array(
-                'slug' => 'datingtips',
+                'slug' => 'datingtipps',
                 'title' => 'Datingtipps'
         ),
 	array(
