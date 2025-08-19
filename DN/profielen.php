@@ -25,8 +25,15 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTtl)) {
 
 if (!$profiles) {
     $apiUrl = $config['BASE_API_URL'] . '/profiles?page=' . $page . '&per_page=' . $perPage;
-    $response = @file_get_contents($apiUrl);
-    if ($response !== false) {
+    $ch = curl_init($apiUrl);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 5,
+        CURLOPT_CONNECTTIMEOUT => 5,
+    ]);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    if ($response !== false && $httpCode === 200) {
         $data = json_decode($response, true);
         if (isset($data['profiles']) && is_array($data['profiles'])) {
             $profiles = $data['profiles'];
@@ -39,6 +46,7 @@ if (!$profiles) {
     } else {
         $apiError = true;
     }
+    curl_close($ch);
 }
 
 $totalProfiles = $totalProfiles ?: count($profiles);
