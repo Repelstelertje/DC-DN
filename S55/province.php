@@ -92,13 +92,6 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
-    <?php echo related_profiles_links($provArray, function($s) use ($country) {
-        $url = 'sexdate-' . $s;
-        if (($country === 'nl' || $country === 'be') && $s === 'limburg') {
-            $url .= '-' . $country;
-        }
-        return $url;
-    }, $slug ?? null); ?>
     <div class="container">
         <div id="footer-banner"></div>
         <div class="jumbotron">

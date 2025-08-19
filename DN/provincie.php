@@ -67,11 +67,6 @@
       </li>
     </ul>
   </nav>
-  <?php
-    $countryArrays = ['de' => $de, 'at' => $at, 'ch' => $ch];
-    $list = $countryArrays[$country] ?? [];
-    echo related_profiles_links($list, function($slug) use ($baseUrl) { return $baseUrl . '/dating-' . $slug; }, $provincie ?? null);
-  ?>
   <div class="container">
     <div class="jumbotron">
       <?php echo $zoek['tekst']; ?>

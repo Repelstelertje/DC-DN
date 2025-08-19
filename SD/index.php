@@ -1,11 +1,5 @@
 <?php
 $base = __DIR__;
-include $base . '/includes/arr_prov_nl.php';
-include $base . '/includes/arr_prov_be.php';
-include $base . '/includes/arr_prov_uk.php';
-include $base . '/includes/arr_prov_de.php';
-include $base . '/includes/arr_prov_at.php';
-include $base . '/includes/arr_prov_ch.php';
 $pageTitle = 'Shemale Sexdating | shemaledaten.net';
 include $base . '/includes/header.php';
 ?>
@@ -300,9 +294,8 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
-    <?php echo related_profiles_links(array_merge($nl, $be, $uk, $de, $at, $ch), function($slug) { return 'shemale-' . $slug; }); ?>
-    <div id="footer-banner"></div>
-    <div class="jumbotron text-center">
+  <div id="footer-banner"></div>
+  <div class="jumbotron text-center">
     <h6>Nederland</h6>
     <a href="https://transgrinder.nl" target="_blank" class="m-0" title="TransGrinder.nl - Verbind met Trans Contacten in Nederland!">Transgrinder</a> - 
     <a href="https://shemalezoekt.com" target="_blank" class="m-0" title="ShemaleZoekt.com - Shemales Zoeken Contact in Nederland!">Shemale Zoekt</a> - 

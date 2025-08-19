@@ -22,36 +22,27 @@ function merge_into_sitemap(array $urls, string $sitemapPath): int {
     $existing = [];
     foreach ($xpath->query('//sm:url') as $node) {
         $locNode = $xpath->query('sm:loc', $node)->item(0);
-        $loc = $locNode ? trim($locNode->textContent) : '';
-        if ($loc === '') {
-            $node->parentNode->removeChild($node);
-            continue;
+        if ($locNode) {
+            $loc = $locNode->textContent;
+            if (isset($existing[$loc])) {
+                $node->parentNode->removeChild($node);
+                continue;
+            }
+            $existing[$loc] = true;
         }
-        // Remove legacy profile URLs that lack the required id parameter
-        if (strpos($loc, '/date-with-') !== false && strpos($loc, '?id=') === false) {
-            $node->parentNode->removeChild($node);
-            continue;
-        }
-        if (isset($existing[$loc])) {
-            $node->parentNode->removeChild($node);
-            continue;
-        }
-        $existing[$loc] = true;
     }
 
     $lastMod = date('c');
     $added = 0;
     foreach (array_unique($urls) as $loc) {
-        $loc = trim((string) $loc);
-        if ($loc === '' || isset($existing[$loc])) {
-            continue;
+        if (!isset($existing[$loc])) {
+            $urlEl = $doc->createElementNS($namespace, 'url');
+            $urlEl->appendChild($doc->createElementNS($namespace, 'loc', $loc));
+            $urlEl->appendChild($doc->createElementNS($namespace, 'lastmod', $lastMod));
+            $doc->documentElement->appendChild($urlEl);
+            $existing[$loc] = true;
+            $added++;
         }
-        $urlEl = $doc->createElementNS($namespace, 'url');
-        $urlEl->appendChild($doc->createElementNS($namespace, 'loc', $loc));
-        $urlEl->appendChild($doc->createElementNS($namespace, 'lastmod', $lastMod));
-        $doc->documentElement->appendChild($urlEl);
-        $existing[$loc] = true;
-        $added++;
     }
 
     $doc->save($sitemapPath);

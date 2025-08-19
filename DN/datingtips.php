@@ -35,8 +35,6 @@ if ($tipSlug === null) {
 }
 
 $tips = $datingtips[$tipSlug];
-$pageTitle = $tips['title'];
-$canonical = 'https://datingnebenan.de/datingtips-' . $tipSlug;
 $metaDescription = $tips['meta'];
 include $base . '/includes/header.php';
 ?>

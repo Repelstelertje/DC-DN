@@ -24,8 +24,6 @@ if (!$tips) {
         exit;
 }
 
-$pageTitle = $tips['title'];
-$canonical = 'https://datingcontact.co.uk/datingtips-' . $datingtip;
 $metaDescription = $tips['meta'];
 include $base . '/includes/header.php';
 ?>

@@ -1,11 +1,5 @@
 <?php
 $base = __DIR__;
-include $base . '/includes/arr_prov_nl.php';
-include $base . '/includes/arr_prov_be.php';
-include $base . '/includes/arr_prov_uk.php';
-include $base . '/includes/arr_prov_de.php';
-include $base . '/includes/arr_prov_at.php';
-include $base . '/includes/arr_prov_ch.php';
 $pageTitle = '55+ Sexdating | sex55.net';
 include $base . '/includes/header.php';
 ?>
@@ -300,9 +294,8 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
-    <?php echo related_profiles_links(array_merge($nl, $be, $uk, $de, $at, $ch), function($slug) { return 'sexdate-' . $slug; }); ?>
-    <div id="footer-banner"></div>
-    <div class="jumbotron text-center">
+  <div id="footer-banner"></div>
+  <div class="jumbotron text-center">
       <h6>Nederland</h6>
       <a href="https://buurtmilfs.nl" target="_blank" class="m-0" title="BuurtMilfs.nl - Vind Milfs in Jouw Buurt voor Contact!">BuurtMilfs</a> - 
       <a href="https://bd4xxx.nl" target="_blank" class="m-0" title="BD4XXX.nl - Ervaar Spanning en Sensualiteit in Nederland!">BD4XXX</a> - 

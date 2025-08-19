@@ -50,9 +50,6 @@ foreach ($countryMap as $code => $provArr) {
         foreach ($data['profiles'] as $prof) {
             if (empty($prof['id']) || empty($prof['name'])) continue;
             $slug = slugify($prof['name']);
-            if ($slug === '') {
-                continue; // skip profiles without a usable slug
-            }
             $profilePaths[$prof['id']] = $baseUrl . '/date-mit-' . $slug . '?id=' . $prof['id'];
         }
     }

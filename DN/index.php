@@ -79,7 +79,6 @@ include $base . '/includes/header.php';
             </ul>
         </nav>
     </div><!-- /.row -->
-    <?php echo related_profiles_links(array_merge($de, $at, $ch), function($slug) use ($baseUrl) { return $baseUrl . '/dating-' . $slug; }); ?>
     <div class="jumbotron">
         <h2  class="text-center">Was Wir Bieten</h2>
         <p>Unser Herzstück bei <a href="index.php">Dating Nebenan</a> ist die Verbindung von Singles über die Grenzen aller deutschen Provinzen hinweg – von der lebendigen Vielfalt Nordrhein-Westfalens bis zu den malerischen Landschaften Bayerns. Entdecke Liebe in jedem Winkel Deutschlands mit unseren speziell angepassten Features:</p>
