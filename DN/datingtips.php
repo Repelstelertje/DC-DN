@@ -1,11 +1,9 @@
-<?php 
+<?php
 $base = __DIR__;
-$pageTitle = 'Datingtipps - Dating Nebenan';
-$canonical = 'https://datingnebenan.de/datingtips';
 
-include $base . '/includes/array_tips.php';
-
+require_once $base . '/includes/array_tips.php';
 require_once $base . '/includes/utils.php';
+require_once $base . '/includes/site.php';
 
 $param = $_GET['tip'] ?? $_GET['item'] ?? null;
 if ($param !== null) {
@@ -18,11 +16,18 @@ if ($param !== null) {
         return;
     }
 } else {
-    $tipSlug = 'datingtips';
+    $tipSlug = 'datingtipps';
 }
 
 $tips = $datingtips[$tipSlug];
 $metaDescription = $tips['meta'];
+$baseUrl = get_base_url('https://datingnebenan.de');
+$canonical = $baseUrl . '/datingtipps';
+if ($tipSlug !== 'datingtipps') {
+    $canonical .= '-' . $tipSlug;
+}
+$pageTitle = $tips['title'] . ' - Dating Nebenan';
+
 include $base . '/includes/header.php';
 ?>
 

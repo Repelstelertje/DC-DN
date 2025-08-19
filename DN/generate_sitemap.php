@@ -12,7 +12,7 @@ $urls = [];
 
 $static = [
     '/',
-    '/datingtips',
+    '/datingtipps',
     '/partnerlinks',
     '/privacy',
     '/cookie-policy',
@@ -34,7 +34,10 @@ foreach (array_keys($ch) as $slug) {
     $urls[] = $baseUrl . '/dating-' . $slug;
 }
 foreach (array_keys($datingtips) as $slug) {
-    $urls[] = $baseUrl . '/datingtips-' . $slug;
+    if ($slug === 'datingtipps') {
+        continue;
+    }
+    $urls[] = $baseUrl . '/datingtipps-' . $slug;
 }
 
 $provinceApiBase = rtrim($config['BASE_API_URL'], '/') . '/profile/province';

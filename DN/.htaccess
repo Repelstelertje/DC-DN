@@ -20,7 +20,12 @@ RewriteRule ^dating-([^/]+)/?$ provincie.php?item=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^datingtips-([^/]+)/?$ datingtips.php?tip=$1 [L,QSA]
+RewriteRule ^datingtipps-([^/]+)/?$ datingtips.php?tip=$1 [L,QSA]
+
+# Allow accessing the base tips page via /datingtipps
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^datingtipps/?$ datingtips.php?tip=datingtipps [L,QSA]
 
 ErrorDocument 404 /404.php
 

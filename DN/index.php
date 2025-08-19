@@ -106,8 +106,9 @@ include $base . '/includes/header.php';
             if (empty($slug) || empty($item['name'])) {
                 continue;
             }
+            $url = ($slug === 'datingtipps') ? 'datingtipps' : 'datingtipps-' . $slug;
         ?>
-        <a href="datingtips-<?php echo $slug; ?>" class="btn btn-primary btn-tips"><?php echo $item['name']; ?></a>
+        <a href="<?php echo $url; ?>" class="btn btn-primary btn-tips"><?php echo $item['name']; ?></a>
         <?php } ?>
     </div>
     <div id="footer-banner"></div>

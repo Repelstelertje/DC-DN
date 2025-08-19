@@ -10,9 +10,11 @@
         <a class="nav-link dropdown-toggle drpdwn" href="#" id="navbarDropdownTips" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Datingtipps</a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownTips">
             <?php foreach ($datingtips as $slug => $tip) {
-                    if (!empty($tip['name'])) {
-                        echo "<a class=\"dropdown-item\" href=\"datingtips.php?tip=$slug\">{$tip['name']}</a>";
+                    if (empty($tip['name'])) {
+                        continue;
                     }
+                    $url = ($slug === 'datingtipps') ? 'datingtipps' : 'datingtipps-' . $slug;
+                    echo "<a class=\"dropdown-item\" href=\"$url\">{$tip['name']}</a>";
             } ?>
         </div>
     </li>
