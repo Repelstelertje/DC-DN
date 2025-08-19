@@ -18,6 +18,10 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^dating-([^/]+)/?$ provincie.php?item=$1 [L,QSA]
 
+# Redirect old datingtips URLs
+RewriteRule ^datingtips-([^/]+)/?$ /datingtipps-$1 [R=301,L]
+RewriteRule ^datingtips/?$ /datingtipps [R=301,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^datingtipps-([^/]+)/?$ datingtips.php?tip=$1 [L,QSA]
