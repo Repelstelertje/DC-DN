@@ -8,30 +8,17 @@ include $base . '/includes/array_tips.php';
 require_once $base . '/includes/utils.php';
 
 $param = $_GET['tip'] ?? $_GET['item'] ?? null;
-$tipSlug = null;
 if ($param !== null) {
     $candidate = strip_bad_chars($param);
     if (isset($datingtips[$candidate])) {
         $tipSlug = $candidate;
+    } else {
+        http_response_code(404);
+        include $base . '/404.php';
+        return;
     }
-}
-
-if ($tipSlug === null) {
-    $metaDescription = 'Entdecke hilfreiche Datingtipps bei Dating Nebenan.';
-    include $base . '/includes/header.php';
-    ?>
-    <div class="container">
-        <div class='jumbotron my-4 text-center'>
-            <h1>Datingtipps</h1>
-            <p>Wähle einen unserer Tipps:</p>
-            <?php foreach ($datingtips as $slug => $tip) { ?>
-                <p><a class="btn btn-primary btn-tips" href="datingtips-<?php echo $slug; ?>"><?php echo htmlspecialchars($tip['name']); ?></a></p>
-            <?php } ?>
-        </div>
-    </div>
-    <?php include $base . '/includes/footer.php'; ?>
-    <?php
-    return;
+} else {
+    $tipSlug = 'datingtips';
 }
 
 $tips = $datingtips[$tipSlug];
