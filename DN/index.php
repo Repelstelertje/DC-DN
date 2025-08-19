@@ -103,7 +103,7 @@ include $base . '/includes/header.php';
     <div class="jumbotron text-center">
         <h2>Dating-Tipps</h2>
         <?php foreach ($datingtips as $slug => $item) {
-            if (empty($slug) || empty($item['name'])) {
+            if (empty($slug) || empty($item['name']) || $slug === 'datingtipps') {
                 continue;
             }
             $url = ($slug === 'datingtipps') ? 'datingtipps' : 'datingtipps-' . $slug;
