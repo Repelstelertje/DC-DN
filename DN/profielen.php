@@ -76,7 +76,7 @@ include $base . '/includes/header.php';
 ?>
 <div class="container">
     <div class="jumbotron my-4">
-        <h1>Profielen</h1>
+        <h1>Profile</h1>
 
         <?php if (empty($profiles)): ?>
             <p>Geen profielen gevonden.</p>
