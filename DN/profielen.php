@@ -12,11 +12,6 @@ $nameField = 'name';
 $cityField = 'city';
 $linkField = 'link';
 
-// ==== INPUT ====
-$page    = max(1, (int)($_GET['page'] ?? 1));
-$perPage = max(1, min(500, (int)($_GET['per_page'] ?? 500)));
-$q       = trim((string)($_GET['q'] ?? ''));
-
 // ==== HELPERS ====
 function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = true): Generator {
@@ -40,29 +35,15 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
     }
 }
 
-// ==== FILTER + PAGINATION ====
-$offset  = ($page - 1) * $perPage;
-$shown   = 0;
-$total   = 0;
-$matches = 0;
-$items   = [];
-
+// ==== LOAD PROFILES ====
+$profiles = [];
 try {
     foreach (csvIterator($csvPath, $delimiter, $hasHeader) as $rec) {
-        $match = true;
-        if ($q !== '') {
-            $hay = strtolower(($rec[$nameField] ?? '') . ' ' . ($rec[$cityField] ?? '') . ' ' . ($rec[$idField] ?? '') . ' ' . ($rec[$linkField] ?? ''));
-            $match = str_contains($hay, strtolower($q));
+        $id = trim((string)($rec[$idField] ?? ''));
+        if ($id === '') {
+            continue;
         }
-        if (!$match) { $total++; continue; }
-
-        $matches++;
-        if ($matches <= $offset) { $total++; continue; }
-        if ($shown < $perPage) {
-            $items[] = $rec;
-            $shown++;
-        }
-        $total++;
+        $profiles[] = $rec;
     }
 } catch (Throwable $e) {
     http_response_code(500);
@@ -70,10 +51,8 @@ try {
     exit;
 }
 
-$lastPage = max(1, (int)ceil(($matches > 0 ? $matches : 1) / $perPage));
-
 $baseUrl  = get_base_url('https://datingnebenan.de');
-$canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
+$canonical = $baseUrl . '/profielen';
 $pageTitle = 'Profielen — Dating Nebenan';
 $metaRobots = 'index,follow';
 
@@ -82,26 +61,11 @@ include $base . '/includes/header.php';
 <div class="container">
     <h1>Profielen</h1>
 
-    <form method="get" action="" class="mb-3">
-        <input type="text" name="q" value="<?=h($q)?>" placeholder="Zoek op naam, plaats of ID…">
-        <input type="number" name="per_page" value="<?=h((string)$perPage)?>" min="1" max="500" step="50" title="per pagina">
-        <button type="submit">Zoeken</button>
-        <?php if ($q !== ''): ?>
-            <a href="?per_page=<?=h((string)$perPage)?>" style="align-self:center;">Reset</a>
-        <?php endif; ?>
-    </form>
-
-    <p class="stats">
-        Totaal in CSV: <strong><?=number_format($total, 0, ',', '.')?></strong> ·
-        Matches: <strong><?=number_format($matches, 0, ',', '.')?></strong> ·
-        Pagina <strong><?=number_format($page)?></strong> / <?=number_format($lastPage)?>
-    </p>
-
-    <?php if (empty($items)): ?>
+    <?php if (empty($profiles)): ?>
         <p>Geen profielen gevonden.</p>
     <?php else: ?>
     <ul class="list-unstyled">
-        <?php foreach ($items as $r):
+        <?php foreach ($profiles as $r):
             $id   = trim((string)($r[$idField] ?? ''));
             if ($id === '') continue;
             $name = $r[$nameField] ?? ('Profil ' . $id);
@@ -109,42 +73,17 @@ include $base . '/includes/header.php';
             $link = $r[$linkField] ?? '';
         ?>
         <li class="mb-1">
-            <span><?=h($name)?></span>
+            <?php if ($link !== ''): ?>
+                <a href="<?=h($link)?>" target="_blank" rel="noopener"><?=h($name)?></a>
+            <?php else: ?>
+                <span><?=h($name)?></span>
+            <?php endif; ?>
             <?php if ($city !== ''): ?>
                 <span class="text-muted"> — <?=h($city)?></span>
-            <?php endif; ?>
-            <?php if ($link !== ''): ?>
-                <span class="text-muted"> — <a href="<?=h($link)?>" target="_blank" rel="noopener">Link</a></span>
             <?php endif; ?>
         </li>
         <?php endforeach; ?>
     </ul>
     <?php endif; ?>
-
-<?php if ($lastPage > 1):
-    function qs(array $extra): string {
-        $params = $_GET;
-        foreach ($extra as $k=>$v) { $params[$k] = $v; }
-        return '?' . http_build_query($params);
-    }
-    $window = 3;
-    $start = max(1, $page - $window);
-    $end   = min($lastPage, $page + $window);
-?>
-    <nav class="mt-3">
-        <?php if ($page > 1): ?>
-            <a class="page" href="<?=h(qs(['page'=>1]))?>">« Eerste</a>
-            <a class="page" href="<?=h(qs(['page'=>$page-1]))?>">‹ Vorige</a>
-        <?php endif; ?>
-        <?php for ($p = $start; $p <= $end; $p++): ?>
-            <a class="page <?=$p === $page ? 'active' : ''?>" href="<?=h(qs(['page'=>$p]))?>"><?=$p?></a>
-        <?php endfor; ?>
-        <?php if ($page < $lastPage): ?>
-            <a class="page" href="<?=h(qs(['page'=>$page+1]))?>">Volgende ›</a>
-            <a class="page" href="<?=h(qs(['page'=>$lastPage]))?>">Laatste »</a>
-        <?php endif; ?>
-    </nav>
-<?php endif; ?>
-
 </div>
 <?php include $base . '/includes/footer.php'; ?>
