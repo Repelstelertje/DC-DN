@@ -1,7 +1,8 @@
 <!-- Footer -->
 <footer class="bg-dark">
-	<ul class="footer-links">
-		<li><a href="https://18date.net/" target="_blank" class="m-0">18Date</a> - </li>
+        <ul class="footer-links">
+                <li><a href="/profielen.php" class="m-0">Profielen</a> - </li>
+                <li><a href="https://18date.net/" target="_blank" class="m-0">18Date</a> - </li>
 		<li><a href="https://sex55.net/" target="_blank" class="m-0">Sex55</a> - </li>
 		<li><a href="https://oproepjesnederland.nl/" target="_blank" class="m-0">Oproepjes Nederland</a> - </li>
 		<li><a href="http://zoekertjesbelgie.be" target="_blank" class="m-0">Zoekertjes België</a> - </li>
