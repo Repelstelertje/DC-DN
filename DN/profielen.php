@@ -5,7 +5,7 @@ require_once $base . '/includes/site.php';
 
 // ==== CONFIG ====
 $csvPath   = $base . '/data/profielen.csv';
-$delimiter = ',';
+$delimiter = ';';
 $hasHeader = true;
 $idField   = 'id';
 $nameField = 'name';
@@ -38,12 +38,17 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
 // ==== LOAD PROFILES ====
 $profiles = [];
 try {
+    $count = 0;
     foreach (csvIterator($csvPath, $delimiter, $hasHeader) as $rec) {
         $id = trim((string)($rec[$idField] ?? ''));
         if ($id === '') {
             continue;
         }
         $profiles[] = $rec;
+        $count++;
+        if ($count >= 500) {
+            break; // max 500 profielen per pagina
+        }
     }
 } catch (Throwable $e) {
     http_response_code(500);
@@ -64,26 +69,26 @@ include $base . '/includes/header.php';
     <?php if (empty($profiles)): ?>
         <p>Geen profielen gevonden.</p>
     <?php else: ?>
-    <ul class="list-unstyled">
-        <?php foreach ($profiles as $r):
-            $id   = trim((string)($r[$idField] ?? ''));
-            if ($id === '') continue;
-            $name = $r[$nameField] ?? ('Profil ' . $id);
-            $city = $r[$cityField] ?? '';
-            $link = $r[$linkField] ?? '';
-        ?>
-        <li class="mb-1">
-            <?php if ($link !== ''): ?>
-                <a href="<?=h($link)?>" target="_blank" rel="noopener"><?=h($name)?></a>
-            <?php else: ?>
-                <span><?=h($name)?></span>
-            <?php endif; ?>
-            <?php if ($city !== ''): ?>
-                <span class="text-muted"> — <?=h($city)?></span>
-            <?php endif; ?>
-        </li>
+    <?php $chunks = array_chunk($profiles, 250); ?>
+    <div class="row">
+        <?php foreach ($chunks as $chunk): ?>
+        <div class="col-md-6">
+            <ul class="list-unstyled">
+                <?php foreach ($chunk as $r):
+                    $id   = trim((string)($r[$idField] ?? ''));
+                    if ($id === '') continue;
+                    $name = $r[$nameField] ?? ('Profil ' . $id);
+                    $city = $r[$cityField] ?? '';
+                    $link = $r[$linkField] ?? '';
+                ?>
+                <li class="mb-1">
+                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>" target="_blank" rel="noopener"><?=h($link)?></a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
         <?php endforeach; ?>
-    </ul>
+    </div>
     <?php endif; ?>
 </div>
 <?php include $base . '/includes/footer.php'; ?>
