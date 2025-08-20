@@ -91,7 +91,7 @@ include $base . '/includes/header.php';
                     $link = $r[$linkField] ?? '';
                 ?>
                 <li class="mb-1">
-                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>" target="_blank" rel="noopener"><?=h($link)?></a>
+                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>"><?=h($link)?></a>
                 </li>
                 <?php endforeach; ?>
             </ul>
