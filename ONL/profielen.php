@@ -103,6 +103,8 @@ include $base . '/includes/header.php';
                         $name = $r[$nameField] ?? ('Profiel ' . $id);
                         $city = $r[$cityField] ?? '';
                         $link = $r[$linkField] ?? '';
+                        // Strip any id query parameter to match other sites
+                        $link = preg_replace('/\?id=[^&]+/', '', $link);
                     ?>
                     <li class="mb-1">
                         <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>"><?= $t['view_profile'] ?></a>
