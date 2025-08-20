@@ -10,10 +10,11 @@ $hasHeader = true;
 $idField   = 'id';
 $nameField = 'name';
 $cityField = 'city';
+$linkField = 'link';
 
 // ==== INPUT ====
 $page    = max(1, (int)($_GET['page'] ?? 1));
-$perPage = max(50, min(1000, (int)($_GET['per_page'] ?? 500)));
+$perPage = max(1, min(500, (int)($_GET['per_page'] ?? 500)));
 $q       = trim((string)($_GET['q'] ?? ''));
 
 // ==== HELPERS ====
@@ -50,7 +51,7 @@ try {
     foreach (csvIterator($csvPath, $delimiter, $hasHeader) as $rec) {
         $match = true;
         if ($q !== '') {
-            $hay = strtolower(($rec[$nameField] ?? '') . ' ' . ($rec[$cityField] ?? '') . ' ' . ($rec[$idField] ?? ''));
+            $hay = strtolower(($rec[$nameField] ?? '') . ' ' . ($rec[$cityField] ?? '') . ' ' . ($rec[$idField] ?? '') . ' ' . ($rec[$linkField] ?? ''));
             $match = str_contains($hay, strtolower($q));
         }
         if (!$match) { $total++; continue; }
@@ -83,7 +84,7 @@ include $base . '/includes/header.php';
 
     <form method="get" action="" class="mb-3">
         <input type="text" name="q" value="<?=h($q)?>" placeholder="Zoek op naam, plaats of ID…">
-        <input type="number" name="per_page" value="<?=h((string)$perPage)?>" min="50" max="1000" step="50" title="per pagina">
+        <input type="number" name="per_page" value="<?=h((string)$perPage)?>" min="1" max="500" step="50" title="per pagina">
         <button type="submit">Zoeken</button>
         <?php if ($q !== ''): ?>
             <a href="?per_page=<?=h((string)$perPage)?>" style="align-self:center;">Reset</a>
@@ -105,15 +106,16 @@ include $base . '/includes/header.php';
             if ($id === '') continue;
             $name = $r[$nameField] ?? ('Profil ' . $id);
             $city = $r[$cityField] ?? '';
-            $slug = slugify($name);
-            $href = '/date-mit-' . $slug . '?id=' . rawurlencode($id);
+            $link = $r[$linkField] ?? '';
         ?>
         <li class="mb-1">
-            <a href="<?=h($href)?>"><?=h($name)?></a>
+            <span><?=h($name)?></span>
             <?php if ($city !== ''): ?>
                 <span class="text-muted"> — <?=h($city)?></span>
             <?php endif; ?>
-            <span class="text-muted"> (ID: <?=h($id)?>)</span>
+            <?php if ($link !== ''): ?>
+                <span class="text-muted"> — <a href="<?=h($link)?>" target="_blank" rel="noopener">Link</a></span>
+            <?php endif; ?>
         </li>
         <?php endforeach; ?>
     </ul>
