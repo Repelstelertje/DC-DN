@@ -93,12 +93,26 @@ include $base . '/includes/header.php';
     </div>
     <?php if ($pages > 1): ?>
     <nav aria-label="Profielen paginering">
+        <?php
+        $prevPage = max(1, $page - 1);
+        $nextPage = min($pages, $page + 1);
+        ?>
         <ul class="pagination">
-            <?php for ($p = 1; $p <= $pages; $p++): ?>
-            <li class="page-item<?= $p === $page ? ' active' : '' ?>">
-                <a class="page-link" href="?page=<?=$p?>"><?=$p?></a>
+            <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                <a class="page-link" href="?page=1">Eerste</a>
             </li>
-            <?php endfor; ?>
+            <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
+                <a class="page-link" href="?page=<?=$prevPage?>">Vorige</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">Pagina <?=$page?> van <?=$pages?></span>
+            </li>
+            <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                <a class="page-link" href="?page=<?=$nextPage?>">Volgende</a>
+            </li>
+            <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
+                <a class="page-link" href="?page=<?=$pages?>">Laatste</a>
+            </li>
         </ul>
     </nav>
     <?php endif; ?>
