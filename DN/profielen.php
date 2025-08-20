@@ -75,30 +75,32 @@ $metaRobots = 'index,follow';
 include $base . '/includes/header.php';
 ?>
 <div class="container">
-    <h1>Profielen</h1>
+    <div class="jumbotron my-4">
+        <h1>Profielen</h1>
 
-    <?php if (empty($profiles)): ?>
-        <p>Geen profielen gevonden.</p>
-    <?php else: ?>
-    <?php $chunks = array_chunk($profiles, 250); ?>
-    <div class="row">
-        <?php foreach ($chunks as $chunk): ?>
-        <div class="col-md-6">
-            <ul class="list-unstyled">
-                <?php foreach ($chunk as $r):
-                    $id   = trim((string)($r[$idField] ?? ''));
-                    if ($id === '') continue;
-                    $name = $r[$nameField] ?? ('Profil ' . $id);
-                    $city = $r[$cityField] ?? '';
-                    $link = $r[$linkField] ?? '';
-                ?>
-                <li class="mb-1">
-                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>">Bekijk profiel</a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
+        <?php if (empty($profiles)): ?>
+            <p>Geen profielen gevonden.</p>
+        <?php else: ?>
+        <?php $chunks = array_chunk($profiles, 250); ?>
+        <div class="row">
+            <?php foreach ($chunks as $chunk): ?>
+            <div class="col-md-6">
+                <ul class="list-unstyled">
+                    <?php foreach ($chunk as $r):
+                        $id   = trim((string)($r[$idField] ?? ''));
+                        if ($id === '') continue;
+                        $name = $r[$nameField] ?? ('Profil ' . $id);
+                        $city = $r[$cityField] ?? '';
+                        $link = $r[$linkField] ?? '';
+                    ?>
+                    <li class="mb-1">
+                        <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>">Profil ansehen</a>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
     </div>
     <?php if ($pages > 1): ?>
     <nav aria-label="Profielen paginering">
@@ -108,19 +110,19 @@ include $base . '/includes/header.php';
         ?>
         <ul class="pagination">
             <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=1">Eerste</a>
+                <a class="page-link" href="?page=1">Erste</a>
             </li>
             <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$prevPage?>">Vorige</a>
+                <a class="page-link" href="?page=<?=$prevPage?>">Zurück</a>
             </li>
             <li class="page-item disabled">
-                <span class="page-link">Pagina <?=$page?> van <?=$pages?></span>
+                <span class="page-link">Seite <?=$page?> van <?=$pages?></span>
             </li>
             <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$nextPage?>">Volgende</a>
+                <a class="page-link" href="?page=<?=$nextPage?>">Weiter</a>
             </li>
             <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$pages?>">Laatste</a>
+                <a class="page-link" href="?page=<?=$pages?>">Letzte</a>
             </li>
         </ul>
     </nav>
