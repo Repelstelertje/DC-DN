@@ -44,6 +44,7 @@ if (!$profiles) {
     } else {
         $apiError = true;
     }
+    curl_close($ch);
 }
 
 $totalProfiles = $totalProfiles ?: count($profiles);
