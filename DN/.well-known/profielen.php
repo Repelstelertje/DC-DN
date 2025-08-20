@@ -38,26 +38,28 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
 // ==== LOAD PROFILES ====
 $profiles = [];
 try {
-    $count = 0;
     foreach (csvIterator($csvPath, $delimiter, $hasHeader) as $rec) {
         $id = trim((string)($rec[$idField] ?? ''));
         if ($id === '') {
             continue;
         }
         $profiles[] = $rec;
-        $count++;
-        if ($count >= 500) {
-            break; // max 500 profielen per pagina
-        }
     }
 } catch (Throwable $e) {
     http_response_code(500);
     echo '<p>Fout bij lezen CSV: ' . h($e->getMessage()) . '</p>';
     exit;
 }
+// ==== PAGINATION ====
+$perPage = 500;
+$page    = max(1, (int)($_GET['page'] ?? 1));
+$total   = count($profiles);
+$pages   = (int) ceil($total / $perPage);
+$offset  = ($page - 1) * $perPage;
+$profiles = array_slice($profiles, $offset, $perPage);
 
 $baseUrl  = get_base_url('https://datingnebenan.de');
-$canonical = $baseUrl . '/profielen';
+$canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
 $pageTitle = 'Profielen — Dating Nebenan';
 $metaRobots = 'index,follow';
 
@@ -82,13 +84,24 @@ include $base . '/includes/header.php';
                     $link = $r[$linkField] ?? '';
                 ?>
                 <li class="mb-1">
-                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>" target="_blank" rel="noopener"><?=h($link)?></a>
+                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>" target="_blank" rel="noopener">Bekijk profiel</a>
                 </li>
                 <?php endforeach; ?>
             </ul>
         </div>
         <?php endforeach; ?>
     </div>
+    <?php if ($pages > 1): ?>
+    <nav aria-label="Profielen paginering">
+        <ul class="pagination">
+            <?php for ($p = 1; $p <= $pages; $p++): ?>
+            <li class="page-item<?= $p === $page ? ' active' : '' ?>">
+                <a class="page-link" href="?page=<?=$p?>"><?=$p?></a>
+            </li>
+            <?php endfor; ?>
+        </ul>
+    </nav>
+    <?php endif; ?>
     <?php endif; ?>
 </div>
 <?php include $base . '/includes/footer.php'; ?>
