@@ -25,15 +25,13 @@ if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheTtl)) {
 
 if (!$profiles) {
     $apiUrl = $config['BASE_API_URL'] . '/profiles?page=' . $page . '&per_page=' . $perPage;
-    $ch = curl_init($apiUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 5,
-        CURLOPT_CONNECTTIMEOUT => 5,
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 5,
+        ],
     ]);
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    if ($response !== false && $httpCode === 200) {
+    $response = @file_get_contents($apiUrl, false, $context);
+    if ($response !== false) {
         $data = json_decode($response, true);
         if (isset($data['profiles']) && is_array($data['profiles'])) {
             $profiles = $data['profiles'];
@@ -65,41 +63,39 @@ if ($apiError) {
 include $base . '/includes/header.php';
 ?>
 <div class="container">
-    <div class="jumbotron jumbotron-sm">
-        <h1 class="text-center">Profielen</h1>
-        <?php if ($apiError): ?>
-            <p>Er ging iets mis bij het ophalen van de profielen.</p>
-        <?php else: ?>
-        <ul>
-        <?php foreach ($profilesSlice as $p):
-            $name = htmlspecialchars($p['name'] ?? '', ENT_QUOTES, 'UTF-8');
-            $city = htmlspecialchars($p['city'] ?? '', ENT_QUOTES, 'UTF-8');
-            $id = (int)($p['id'] ?? 0);
-            $slug = slugify($name);
-            $url = '/date-mit-' . $slug . '?id=' . $id;
-        ?>
-            <li><a href="<?= $url ?>"><?= $name ?><?php if ($city) echo ' — ' . $city; ?></a></li>
-        <?php endforeach; ?>
+    <h1>Profielen</h1>
+<?php if ($apiError): ?>
+    <p>Er ging iets mis bij het ophalen van de profielen.</p>
+<?php else: ?>
+    <ul>
+    <?php foreach ($profilesSlice as $p):
+        $name = htmlspecialchars($p['name'] ?? '', ENT_QUOTES, 'UTF-8');
+        $city = htmlspecialchars($p['city'] ?? '', ENT_QUOTES, 'UTF-8');
+        $id = (int)($p['id'] ?? 0);
+        $slug = slugify($name);
+        $url = '/date-mit-' . $slug . '?id=' . $id;
+    ?>
+        <li><a href="<?= $url ?>"><?= $name ?><?php if ($city) echo ' — ' . $city; ?></a></li>
+    <?php endforeach; ?>
+    </ul>
+    <?php if ($totalPages > 1): ?>
+    <nav aria-label="Paginierung">
+        <ul class="pagination">
+            <?php if ($page > 1):
+                $prev = $page - 1;
+                $prevUrl = '/profielen' . ($prev > 1 ? '?page=' . $prev : '');
+            ?>
+            <li class="page-item"><a class="page-link" href="<?= $prevUrl ?>">Vorige</a></li>
+            <?php endif; ?>
+            <?php if ($page < $totalPages):
+                $next = $page + 1;
+                $nextUrl = '/profielen?page=' . $next;
+            ?>
+            <li class="page-item"><a class="page-link" href="<?= $nextUrl ?>">Volgende</a></li>
+            <?php endif; ?>
         </ul>
-        <?php if ($totalPages > 1): ?>
-        <nav aria-label="Paginierung">
-            <ul class="pagination">
-                <?php if ($page > 1):
-                    $prev = $page - 1;
-                    $prevUrl = '/profielen' . ($prev > 1 ? '?page=' . $prev : '');
-                ?>
-                <li class="page-item"><a class="page-link" href="<?= $prevUrl ?>">Vorige</a></li>
-                <?php endif; ?>
-                <?php if ($page < $totalPages):
-                    $next = $page + 1;
-                    $nextUrl = '/profielen?page=' . $next;
-                ?>
-                <li class="page-item"><a class="page-link" href="<?= $nextUrl ?>">Volgende</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-        <?php endif; ?>
-        <?php endif; ?>
-    </div>
+    </nav>
+    <?php endif; ?>
+<?php endif; ?>
 </div>
 <?php include $base . '/includes/footer.php'; ?>
