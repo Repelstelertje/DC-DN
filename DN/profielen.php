@@ -24,7 +24,16 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
     foreach ($f as $row) {
         if ($row === [null] || $row === false) { continue; }
         if ($headers === null) {
-            if ($hasHeader) { $headers = $row; continue; }
+            if ($hasHeader) {
+                // remove possible UTF-8 BOM and whitespace from header names
+                $headers = array_map(function ($h) {
+                    $h = (string) $h;
+                    // strip BOM if present
+                    $h = preg_replace('/^\xEF\xBB\xBF/', '', $h);
+                    return trim($h);
+                }, $row);
+                continue;
+            }
             $headers = array_map(fn($i) => "col_$i", array_keys($row));
         }
         $assoc = [];
