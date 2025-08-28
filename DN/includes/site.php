@@ -3,12 +3,13 @@
  * Common utilities for site headers.
  */
 require_once __DIR__ . '/utils.php';
-function get_base_url(string $default): string {
+
+function get_base_url(string $default) {
     $url = getenv('ONL_BASE_URL');
     return $url !== false && $url !== '' ? $url : $default;
 }
 
-function configure_error_handling(): void {
+function configure_error_handling() {
     $appDebug = getenv('APP_DEBUG');
     if (filter_var($appDebug, FILTER_VALIDATE_BOOLEAN)) {
         ini_set('display_errors', '1');
@@ -20,110 +21,138 @@ function configure_error_handling(): void {
     }
 }
 
-function generate_canonical(string $baseUrl, string $apiEndpoint, string $slugPrefix, ?string $overrideUrl, ?string $titleOverride, string $siteName): array {
-    $canonicalUrl = $baseUrl . $_SERVER['REQUEST_URI'];
-    $title = $siteName;
-    $titlePrefix = ucfirst(str_replace('-', ' ', $slugPrefix)) . ' ';
+function generate_canonical_meta(array $cfg, array $province = []) {
+    $base = rtrim($cfg['base_url'], '/');
+    $canonical = $base;
+    $pageTitle = $cfg['default_title'];
+    $ogImage = $cfg['default_og_image'];
+    $metaDescription = '';
 
     if (isset($_GET['item'])) {
-        $canonicalUrl = $baseUrl . '/dating-' . htmlspecialchars($_GET['item']);
-        $title = 'Dating ' . htmlspecialchars($_GET['item']);
-    } elseif (isset($_GET['slug'])) {
-        $slug = slugify($_GET['slug']);
-        $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $canonicalUrl .= '?id=' . $_GET['id'];
-        }
-        $title = $titlePrefix . ucwords(str_replace('-', ' ', $slug));
-    } elseif (isset($_GET['id'])) {
-        $id = preg_replace('/[^0-9]/', '', $_GET['id']);
-        $apiResponse = @file_get_contents($apiEndpoint . $id);
-        if ($apiResponse !== false) {
-            $data = json_decode($apiResponse, true);
-            if (isset($data['profile']['name'])) {
-                $profileName = $data['profile']['name'];
-                $slug = slugify($profileName);
-                $canonicalUrl = $baseUrl . '/' . $slugPrefix . '-' . $slug;
-                $title = $titlePrefix . htmlspecialchars($profileName);
-            } else {
-                $canonicalUrl = $baseUrl . '/profile?id=' . htmlspecialchars($_GET['id']);
-                $title = $titlePrefix . htmlspecialchars($_GET['id']);
+        $item = filter_var($_GET['item'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        if (basename($_SERVER['PHP_SELF']) === 'datingtips.php') {
+            $map = [
+                'datingtips' => ['slug' => 'datingtips', 'title' => $cfg['tips_title_prefix']],
+                'nl' => ['slug' => 'datingtips-nederland', 'title' => $cfg['tips_title_prefix'] . ' Nederland'],
+                'be' => ['slug' => 'datingtips-belgie', 'title' => $cfg['tips_title_prefix'] . ' België'],
+                'de' => ['slug' => 'datingtips-duitsland', 'title' => $cfg['tips_title_prefix'] . ' Duitsland'],
+                'uk' => ['slug' => 'datingtips-verenigd-koninkrijk', 'title' => $cfg['tips_title_prefix'] . ' Verenigd Koninkrijk'],
+                'at' => ['slug' => 'datingtips-oostenrijk', 'title' => $cfg['tips_title_prefix'] . ' Oostenrijk'],
+                'ch' => ['slug' => 'datingtips-zwitserland', 'title' => $cfg['tips_title_prefix'] . ' Zwitserland'],
+            ];
+            if (isset($map[$item])) {
+                $canonical = $base . '/' . $map[$item]['slug'];
+                $pageTitle = $map[$item]['title'] . ' | ' . $cfg['site_name'];
             }
         } else {
-            $canonicalUrl = $baseUrl . '/profile?id=' . htmlspecialchars($_GET['id']);
-            $title = $titlePrefix . htmlspecialchars($_GET['id']);
+            $item = preg_replace($cfg['item_remove_regex'], '', $item);
+            $canonical = $base . '/' . $cfg['item_prefix'] . '-' . $item;
+            $pageTitle = $cfg['item_page_title_prefix'] . ' ' . $item . ' | ' . $cfg['site_name'];
+            if (isset($province['img'])) {
+                $ogImage = $base . '/img/front/' . $province['img'] . '.jpg';
+            }
         }
-    } elseif (isset($_GET['tip'])) {
-        $tip = htmlspecialchars($_GET['tip']);
-        if ($tip === 'datingtipps') {
-            $canonicalUrl = $baseUrl . '/datingtipps';
-            $title = 'Datingtipps';
+    } elseif (isset($_GET['id'])) {
+        $id = filter_var($_GET['id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $slugParam = isset($_GET['slug']) ?
+            filter_var($_GET['slug'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : '';
+        $country = isset($_GET['country']) ? $_GET['country'] : '';
+        if (isset($cfg['profile_endpoint'])) {
+            $api_url = $cfg['profile_endpoint'];
         } else {
-            $canonicalUrl = $baseUrl . '/datingtipps-' . $tip;
-            $title = 'Datingtipps ' . $tip;
+            switch ($country) {
+                case 'nl':
+                    $api_url = api_base('nl') . '/profile/get0/6/';
+                    break;
+                case 'be':
+                    $api_url = api_base('be') . '/profile/get0/7/';
+                    break;
+                case 'de':
+                case 'at':
+                case 'ch':
+                    $api_url = api_base('de') . '/profile/get/';
+                    break;
+                case 'uk':
+                    $api_url = api_base('uk') . '/profile/get/';
+                    break;
+                default:
+                    $api_url = api_base() . '/profile/get/';
+            }
         }
-    } elseif (empty($_GET)) {
-        $script = basename($_SERVER['SCRIPT_NAME']);
-        if ($script !== 'index.php') {
-            $canonicalUrl = $baseUrl . '/' . str_replace('.php', '', $script);
+        $profile_json = @file_get_contents($api_url . $id);
+        $profile_name = '';
+        $profile_img = '';
+        $profile_about = '';
+        if ($profile_json) {
+            $data = json_decode($profile_json, true);
+            if (isset($data['profile']['name'])) {
+                $profile_name = $data['profile']['name'];
+            }
+            if (isset($data['profile']['profile_image_big'])) {
+                $profile_img = $data['profile']['profile_image_big'];
+            }
+            if (isset($data['profile']['aboutme'])) {
+                $profile_about = $data['profile']['aboutme'];
+            }
+        }
+        if ($profile_name) {
+            $slug = slugify($profile_name);
+            $params = [];
+            if ($country) {
+                $params[] = 'country=' . urlencode($country);
+            }
+            $params[] = 'id=' . urlencode($id);
+            $query = implode('&', $params);
+
+            if ($slugParam) {
+                $canonical = $base . '/' . $cfg['profile_prefix'] . '-' . $slugParam . '?' . $query;
+            } elseif ($slug) {
+                $canonical = $base . '/' . $cfg['profile_prefix'] . '-' . $slug . '?' . $query;
+            } else {
+                $canonical = $base . '/profile?' . $query;
+            }
+            $pageTitle = $cfg['profile_title_prefix'] . ' ' . htmlspecialchars($profile_name, ENT_QUOTES, 'UTF-8');
+            if ($profile_about) {
+                $metaDescription = $profile_about;
+            }
         } else {
-            $canonicalUrl = $baseUrl;
+            $params = [];
+            if ($country) {
+                $params[] = 'country=' . urlencode($country);
+            }
+            $params[] = 'id=' . urlencode($id);
+            $query = implode('&', $params);
+
+            $canonical = $base . '/profile?' . $query;
+            $pageTitle = $cfg['missing_profile_prefix'] . ' ' . $id . ' | ' . $cfg['site_name'];
         }
+        if ($profile_img) {
+            $ogImage = $profile_img;
+        }
+    } elseif (isset($_GET['slug'])) {
+        $slugParam = filter_var($_GET['slug'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $canonical = $base . '/' . $cfg['slug_prefix'] . '-' . $slugParam;
+        $pageTitle = $cfg['profile_title_prefix'] . ' ' . $slugParam . ' | ' . $cfg['site_name'];
     }
 
-    if ($overrideUrl) {
-        $canonicalUrl = $overrideUrl;
-    }
-    if ($titleOverride) {
-        $title = $titleOverride;
-    }
-    if (strpos($title, $siteName) === false) {
-        $title .= ' - ' . $siteName;
-    }
+    $canonical = preg_replace('/([?&])ref=[^&]*(&|$)/', '$1', $canonical);
+    $canonical = rtrim($canonical, '?&');
 
-    return [$canonicalUrl, $title];
+    return [$canonical, $pageTitle, $ogImage, $metaDescription];
 }
 
-function compute_og(string $baseUrl, string $canonicalUrl, string $title, string $defaultDescription, array $ogPages, ?string $metaDescription): array {
-    $current_url = $canonicalUrl;
-    $og_title = $title;
-    $og_description = $defaultDescription;
-    $og_image = $baseUrl . '/img/bg.jpg';
-    $og_url = $current_url;
-
-    foreach ($ogPages as $keyword => $data) {
-        if (strpos($current_url, $keyword) !== false) {
-            $og_title = $data['title'] ?? $og_title;
-            $og_description = $data['description'] ?? $og_description;
-            $og_image = $data['image'] ?? $og_image;
-            $og_url = $current_url;
-            break;
-        }
-    }
-
-    if ($metaDescription) {
-        $og_description = htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8');
-    }
-
-    return [
-        'title' => $og_title,
-        'description' => $og_description,
-        'image' => $og_image,
-        'url' => $og_url,
-    ];
-}
-
-function render_og_meta(array $og): void {
-    echo '<meta property="og:title" content="' . $og['title'] . '">';
-    echo '<meta property="og:description" content="' . $og['description'] . '">';
-    echo '<meta property="og:url" content="' . $og['url'] . '">';
+function output_meta_tags($canonical, $pageTitle, $description, $ogImage) {
+    echo '<link rel="canonical" href="' . $canonical . '">';
+    echo '<title>' . htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') . '</title>';
     echo '<meta property="og:type" content="website">';
-    echo '<meta property="og:image" content="' . $og['image'] . '">';
-
+    echo '<meta property="og:url" content="' . $canonical . '">';
+    echo '<meta property="og:title" content="' . htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<meta property="og:description" content="' . htmlspecialchars($description, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<meta property="og:image" content="' . $ogImage . '">';
     echo '<meta name="twitter:card" content="summary_large_image">';
-    echo '<meta name="twitter:title" content="' . $og['title'] . '">';
-    echo '<meta name="twitter:description" content="' . $og['description'] . '">';
-    echo '<meta name="twitter:image" content="' . $og['image'] . '">';
-    echo '<meta name="twitter:url" content="' . $og['url'] . '">';
+    echo '<meta name="twitter:title" content="' . htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<meta name="twitter:description" content="' . htmlspecialchars($description, ENT_QUOTES, 'UTF-8') . '">';
+    echo '<meta name="twitter:image" content="' . $ogImage . '">';
 }
 ?>

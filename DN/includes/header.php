@@ -1,6 +1,6 @@
 <?php
   $companyName = "Dating Nebenan";
-    if (!isset($base)) {
+  if (!isset($base)) {
     $base = dirname(__DIR__);
   }
   require_once $base . '/includes/site.php';
@@ -10,21 +10,33 @@
   if (file_exists($base . '/includes/array_prov.php')) {
       include $base . '/includes/array_prov.php';
   }
-  // Config is required for API lookups when rendering profile pages
-  // Capture the returned configuration array for later use
   $config = include $base . '/includes/config.php';
 
   configure_error_handling();
   $baseUrl = get_base_url('https://datingnebenan.de');
-  list($canonicalUrl, $title) = generate_canonical(
-      $baseUrl,
-      $config['PROFILE_ENDPOINT'],
-      'date-mit',
-      $canonical ?? null,
-      $pageTitle ?? null,
-      $companyName
-  );
-  $metaRobots = isset($metaRobots) ? $metaRobots : 'index,follow';
+  $cfg = [
+      'base_url' => $baseUrl,
+      'site_name' => $companyName,
+      'default_title' => 'Dating Nebenan',
+      'default_og_image' => $baseUrl . '/img/bg.jpg',
+      'item_prefix' => 'dating',
+      'item_remove_regex' => '/^dating-/',
+      'item_page_title_prefix' => 'Dating',
+      'slug_prefix' => 'date-mit',
+      'profile_prefix' => 'date-mit',
+      'profile_title_prefix' => 'Date mit',
+      'missing_profile_prefix' => 'Date mit',
+      'tips_title_prefix' => 'Datingtipps',
+      'profile_endpoint' => $config['PROFILE_ENDPOINT'],
+  ];
+  list($generatedCanonical, $generatedPageTitle, $generatedOgImage, $generatedMetaDescription) =
+      generate_canonical_meta($cfg, isset($province) ? $province : []);
+  $canonical = isset($canonical) ? $canonical : $generatedCanonical;
+  $pageTitle = isset($pageTitle) ? $pageTitle : $generatedPageTitle;
+  $ogImage = isset($ogImage) ? $ogImage : $generatedOgImage;
+  if (!isset($metaDescription) && $generatedMetaDescription) {
+      $metaDescription = $generatedMetaDescription;
+  }
 ?>
 <!DOCTYPE html>
 <html lang="de-DE">
@@ -43,44 +55,7 @@
 <link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
 <link rel="manifest" href="img/fav/site.webmanifest">
 <?php
-    list($canonicalUrl, $title) = generate_canonical(
-        $baseUrl,
-        $config['PROFILE_ENDPOINT'],
-        'date-mit',
-        $canonical ?? null,
-        $pageTitle ?? null,
-        $companyName
-    );
-    echo '<link rel="canonical" href="' . $canonicalUrl . '" >';
-    echo '<title>' . $title . '</title>';
-?>
-<?php
-    // Stel standaardwaarden in
-    $default_title = "Dating Nebenan";
-    $default_description = "Dating nebenan? Finde unkomplizierte Dates mit echten Singles aus deiner Nähe – diskret, direkt, ehrlich.";
-    $default_image = $baseUrl . "/img/bg.jpg";
-    $default_url = $baseUrl;
-    // Dynamisch genereren van inhoud gebaseerd op de pagina-URL
-    $current_url = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    // Default Open Graph values based on the computed page title and canonical URL
-    $og_title = $title;
-    $og_description = $default_description;
-    $og_image = $default_image;
-    $og_url = $canonicalUrl;
-    $og_pages = [];
-    foreach (['provincies', 'de', 'at', 'ch'] as $listName) {
-        if (isset($$listName) && is_array($$listName)) {
-            foreach ($$listName as $slug => $data) {
-                $og_pages['dating-' . $slug] = [
-                    'title' => $data['title'] ?? $og_title,
-                    'description' => $data['meta'] ?? $og_description,
-                    'image' => $default_image,
-                ];
-            }
-        }
-    }
-    $og = compute_og($baseUrl, $canonicalUrl, $title, $default_description, $og_pages, $metaDescription ?? null);
-    render_og_meta($og);
+  output_meta_tags($canonical, $pageTitle, $description, $ogImage);
 ?>
 <!-- Bootstrap core CSS -->
 <link href="css/vendor/bootstrap.min.css" rel="stylesheet">

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Common utilities for site headers.
+ */
 require_once __DIR__ . '/utils.php';
 
 function get_base_url(string $default) {
@@ -55,23 +58,27 @@ function generate_canonical_meta(array $cfg, array $province = []) {
         $slugParam = isset($_GET['slug']) ?
             filter_var($_GET['slug'], FILTER_SANITIZE_FULL_SPECIAL_CHARS) : '';
         $country = isset($_GET['country']) ? $_GET['country'] : '';
-        switch ($country) {
-            case 'nl':
-                $api_url = api_base('nl') . '/profile/get0/6/';
-                break;
-            case 'be':
-                $api_url = api_base('be') . '/profile/get0/7/';
-                break;
-            case 'de':
-            case 'at':
-            case 'ch':
-                $api_url = api_base('de') . '/profile/get/';
-                break;
-            case 'uk':
-                $api_url = api_base('uk') . '/profile/get/';
-                break;
-            default:
-                $api_url = api_base() . '/profile/get/';
+        if (isset($cfg['profile_endpoint'])) {
+            $api_url = $cfg['profile_endpoint'];
+        } else {
+            switch ($country) {
+                case 'nl':
+                    $api_url = api_base('nl') . '/profile/get0/6/';
+                    break;
+                case 'be':
+                    $api_url = api_base('be') . '/profile/get0/7/';
+                    break;
+                case 'de':
+                case 'at':
+                case 'ch':
+                    $api_url = api_base('de') . '/profile/get/';
+                    break;
+                case 'uk':
+                    $api_url = api_base('uk') . '/profile/get/';
+                    break;
+                default:
+                    $api_url = api_base() . '/profile/get/';
+            }
         }
         $profile_json = @file_get_contents($api_url . $id);
         $profile_name = '';
@@ -107,9 +114,7 @@ function generate_canonical_meta(array $cfg, array $province = []) {
             }
             $pageTitle = $cfg['profile_title_prefix'] . ' ' . htmlspecialchars($profile_name, ENT_QUOTES, 'UTF-8');
             if ($profile_about) {
-                $cleanAbout = strip_tags($profile_about);
-                $cleanAbout = html_entity_decode($cleanAbout, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                $metaDescription = mb_substr(trim($cleanAbout), 0, 160);
+                $metaDescription = $profile_about;
             }
         } else {
             $params = [];
