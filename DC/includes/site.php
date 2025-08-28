@@ -112,7 +112,7 @@ function generate_canonical_meta(array $cfg, array $province = []) {
             } else {
                 $canonical = $base . '/profile?' . $query;
             }
-            $pageTitle = $cfg['profile_title_prefix'] . ' ' . htmlspecialchars($profile_name, ENT_QUOTES, 'UTF-8');
+            $pageTitle = $cfg['profile_title_prefix'] . ' ' . htmlspecialchars($profile_name, ENT_QUOTES, 'UTF-8') . ' | ' . $cfg['site_name'];
             if ($profile_about) {
                 $metaDescription = $profile_about;
             }
