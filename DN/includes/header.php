@@ -13,7 +13,7 @@
   $config = include $base . '/includes/config.php';
 
   configure_error_handling();
-  $baseUrl = get_base_url('https://datingnebenan.de');
+  $baseUrl = $config['BASE_URL'];
   $cfg = [
       'base_url' => $baseUrl,
       'site_name' => $companyName,

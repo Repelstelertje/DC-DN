@@ -1,5 +1,5 @@
 <?php
-$BASE_URL = getenv('ONL_BASE_URL') ?: 'https://18date.net';
+$BASE_URL = getenv('BASE_URL') ?: 'https://18date.net';
 $PROFILE_PREFIX = 'date-';
 $SLUG_PREFIX = 'sexdate-';
 // Configuration for API endpoints. When BASE_API_URL is defined it overrides the
@@ -27,4 +27,8 @@ function api_base($country = '') {
             return $API_BASE_DEFAULT;
     }
 }
+
+return [
+    'BASE_URL' => $BASE_URL,
+];
 ?>

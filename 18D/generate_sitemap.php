@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/utils.php';
 require_once __DIR__ . '/includes/sitemap.php';
-require_once __DIR__ . '/includes/config.php';
+$config = require_once __DIR__ . '/includes/config.php';
 require __DIR__ . '/includes/arr_prov_nl.php';
 require __DIR__ . '/includes/arr_prov_be.php';
 require __DIR__ . '/includes/arr_prov_uk.php';
@@ -10,7 +10,7 @@ require __DIR__ . '/includes/arr_prov_at.php';
 require __DIR__ . '/includes/arr_prov_ch.php';
 require __DIR__ . '/includes/array_tips.php';
 
-$baseUrl = getenv('ONL_BASE_URL') ?: $BASE_URL;
+$baseUrl = $config['BASE_URL'];
 
 $profilePrefix = $PROFILE_PREFIX;
 $slugPrefix = $SLUG_PREFIX;

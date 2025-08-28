@@ -15,7 +15,7 @@ Keeping the same structure across sites simplifies updates and ensures deploymen
 
 Deployment for each site relies on three environment variables that override the defaults in every `config.php` file:
 
-- `ONL_BASE_URL` – canonical site URL used when generating links and Open Graph metadata.
+- `BASE_URL` – canonical site URL used when generating links and Open Graph metadata.
 - `BASE_API_URL` – base URL of the remote API serving profile data and banners.
 - `APP_DEBUG` – set to `true` to enable PHP error reporting during development.
 
