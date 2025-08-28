@@ -13,7 +13,7 @@ RewriteRule ^date-with-([^/]+)/?$ profile.php?slug=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^dating-([^/]+)/?$ provincie.php?item=$1 [L,QSA]
+RewriteRule ^dating-([^/]+)/?$ province.php?item=$1 [L,QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
