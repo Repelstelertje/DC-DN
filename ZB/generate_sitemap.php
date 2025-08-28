@@ -3,7 +3,7 @@ require __DIR__ . '/includes/array_prov.php';
 require __DIR__ . '/includes/array_tips.php';
 $config = include __DIR__ . '/includes/config.php';
 
-$baseUrl = getenv('ONL_BASE_URL') ?: 'https://zoekertjesbelgie.be';
+$baseUrl = $config['BASE_URL'];
 
 require_once __DIR__ . '/includes/utils.php';
 require_once __DIR__ . '/includes/sitemap.php';

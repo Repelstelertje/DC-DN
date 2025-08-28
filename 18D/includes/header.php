@@ -2,7 +2,8 @@
   $companyName = "18Date.net";
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
-  include_once $base . '/includes/config.php';
+  $config = include_once $base . '/includes/config.php';
+  $BASE_URL = $config['BASE_URL'];
   require_once $base . '/includes/utils.php';
   require_once $base . '/includes/site.php';
 
@@ -71,7 +72,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="https://18date.net/"><img class="logo" src="img/logo.png" alt="18Date"></a>
+        <a class="navbar-brand" href="<?php echo rtrim($BASE_URL, '/'); ?>/"><img class="logo" src="img/logo.png" alt="18Date"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <?php include $base . '/includes/nav.php'; ?>
