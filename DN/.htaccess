@@ -16,7 +16,7 @@ RewriteRule ^dating-osterreich/?$  land.php?land=at [L,QSA]
 RewriteRule ^dating-schweiz/?$     land.php?land=ch [L,QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^dating-([^/]+)/?$ provincie.php?item=$1 [L,QSA]
+RewriteRule ^dating-([^/]+)/?$ province.php?item=$1 [L,QSA]
 
 # Redirect old datingtips URLs
 RewriteRule ^datingtips-([^/]+)/?$ /datingtipps-$1 [R=301,L]
