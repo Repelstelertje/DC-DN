@@ -36,6 +36,7 @@
   if (!isset($metaDescription) && $generatedMetaDescription) {
       $metaDescription = $generatedMetaDescription;
   }
+  $metaRobots = isset($metaRobots) ? $metaRobots : 'index,follow';
 ?>
 <!DOCTYPE html>
 <html lang="nl-BE">
