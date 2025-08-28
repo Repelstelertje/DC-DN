@@ -13,6 +13,9 @@
             <?php foreach ($navItems2 as $item2) {echo "<a class=\"dropdown-item\" href=\"$baseUrl/$item2[slug]\">$item2[title]</a>";} ?>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="<?php echo $baseUrl; ?>/profielen">Profielen</a>
+    </li>
     <!-- Nieuwe sociale media links -->
     <li class="nav-item">
         <a class="nav-link" href="https://facebook.com/vrouwzoektrelatie" target="_blank"><img src="img/fb.png" alt="Facebook Vrouw Zoekt Relatie"></a>

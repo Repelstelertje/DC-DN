@@ -18,6 +18,9 @@
             } ?>
         </div>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href="profielen">Profile</a>
+    </li>
     <!-- Nieuwe sociale media links -->
     <li class="nav-item">
         <a class="nav-link" href="https://facebook.com/DateDeutschland" target="_blank"><img src="img/fb.png" alt="Facebook Date Deutschland"></a>
