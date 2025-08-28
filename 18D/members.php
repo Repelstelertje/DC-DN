@@ -67,8 +67,8 @@ $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
 $baseUrl  = $BASE_URL;
-$canonical = $baseUrl . '/leden' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Leden — Sex55.net';
+$canonical = $baseUrl . '/members' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Leden — 18Date.net';
 $metaRobots = 'index,follow';
 
 $t = [

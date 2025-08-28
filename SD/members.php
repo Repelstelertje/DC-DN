@@ -66,9 +66,9 @@ $pages   = (int) ceil($total / $perPage);
 $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
-$baseUrl  = get_base_url('https://zoekertjesbelgie.be');
-$canonical = $baseUrl . '/leden' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Leden — Zoekertjes België';
+$baseUrl  = $BASE_URL;
+$canonical = $baseUrl . '/members' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Leden — shemaledaten.net';
 $metaRobots = 'index,follow';
 
 $t = [

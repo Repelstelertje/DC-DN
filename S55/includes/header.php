@@ -30,6 +30,7 @@
   if (!isset($metaDescription) && $generatedMetaDescription) {
     $metaDescription = $generatedMetaDescription;
   }
+  $metaRobots = isset($metaRobots) ? $metaRobots : 'index,follow';
 
 ?>
 
@@ -46,6 +47,7 @@
 ?>
 <meta name="description" content="<?php echo htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); ?>">
 <meta name="author" content="Sex55">
+<meta name="robots" content="<?php echo htmlspecialchars($metaRobots, ENT_QUOTES, 'UTF-8'); ?>">
 <link rel="icon" type="image/png" href="img/fav/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="img/fav/favicon.svg" />
 <link rel="shortcut icon" href="img/fav/favicon.ico" />

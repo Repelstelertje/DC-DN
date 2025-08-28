@@ -48,4 +48,23 @@ function merge_into_sitemap(array $urls, string $sitemapPath): int {
     $doc->save($sitemapPath);
     return $added;
 }
+
+function exclude_noindex(array $urls, string $baseDir): array {
+    return array_filter($urls, static function ($url) use ($baseDir) {
+        $path = parse_url($url, PHP_URL_PATH);
+        if ($path === false) {
+            return true;
+        }
+        $path = trim($path, '/');
+        $file = $path === '' ? $baseDir . '/index.php' : $baseDir . '/' . $path . '.php';
+        if (!file_exists($file)) {
+            return true;
+        }
+        $contents = @file_get_contents($file);
+        if ($contents === false) {
+            return true;
+        }
+        return stripos($contents, 'noindex') === false;
+    });
+}
 ?>

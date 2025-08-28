@@ -19,7 +19,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="mitglieder">Mitglieder</a>
+        <a class="nav-link" href="members">Mitglieder</a>
     </li>
     <!-- Nieuwe sociale media links -->
     <li class="nav-item">

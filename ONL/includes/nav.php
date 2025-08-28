@@ -14,7 +14,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="<?php echo $baseUrl; ?>/leden">Leden</a>
+        <a class="nav-link" href="<?php echo $baseUrl; ?>/members">Leden</a>
     </li>
     <!-- Nieuwe sociale media links -->
     <li class="nav-item">

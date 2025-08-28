@@ -33,10 +33,10 @@ if (isset($countryRoutes[$path])) {
     return;
 }
 
-// /dating-<slug> => provincie.php?item=<slug>
+// /dating-<slug> => province.php?item=<slug>
 if (preg_match('#^/dating-([^/]+)$#', $path, $m)) {
     $_GET['item'] = $m[1];
-    include __DIR__ . '/provincie.php';
+    include __DIR__ . '/province.php';
     return;
 }
 
@@ -68,7 +68,7 @@ $routes = [
     '/privacy'       => 'privacy.php',
     '/cookie-policy' => 'cookie-policy.php',
     '/land'          => 'land.php',
-    '/mitglieder'    => 'mitglieder.php',
+    '/members'    => 'members.php',
 ];
 
 if (isset($routes[$path])) {
@@ -83,5 +83,6 @@ if ($path !== '/' && file_exists($phpFile)) {
 }
 
 http_response_code(404);
+$metaRobots = 'noindex,follow';
 include __DIR__ . '/404.php';
 
