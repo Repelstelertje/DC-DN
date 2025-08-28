@@ -83,5 +83,6 @@ if ($path !== '/' && file_exists($phpFile)) {
 }
 
 http_response_code(404);
+$metaRobots = 'noindex,follow';
 include __DIR__ . '/404.php';
 

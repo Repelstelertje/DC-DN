@@ -1,6 +1,7 @@
 <?php
 $base = __DIR__;
 $pageTitle = '404 | Page not found - Oproepjes Nederland';
+$metaRobots = 'noindex,follow';
 include $base . '/includes/header.php';
 ?>
 

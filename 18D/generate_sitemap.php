@@ -70,6 +70,8 @@ foreach ($profileUrls as $url) {
     $urls[] = $url;
 }
 
+$urls = exclude_noindex($urls, __DIR__);
+
 $urls = array_filter($urls, static function ($u) {
     return is_string($u) && trim($u) !== '';
 });

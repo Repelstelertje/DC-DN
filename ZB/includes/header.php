@@ -24,6 +24,7 @@
       $pageTitle ?? null,
       $companyName
   );
+  $metaRobots = isset($metaRobots) ? $metaRobots : 'index,follow';
 ?>
 <!DOCTYPE html>
 <html lang="nl-BE">
@@ -36,6 +37,7 @@
 ?>
 <meta name="description" content="<?php echo htmlspecialchars($description, ENT_QUOTES, 'UTF-8'); ?>">
 <meta name="author" content="Zoekertjes Belgie">
+<meta name="robots" content="<?php echo htmlspecialchars($metaRobots, ENT_QUOTES, 'UTF-8'); ?>">
 <link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="img/fav/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
