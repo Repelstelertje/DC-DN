@@ -57,7 +57,7 @@ foreach ($countryMap as $code => $info) {
             if ($slugified === '') {
                 continue;  // skip profiles without a usable slug
             }
-            $profileUrls[$p['id']] = $baseUrl . '/' . $profilePrefix . $slugified . '?country=' . $code . '&id=' . $p['id'];
+            $profileUrls[$p['id']] = $baseUrl . '/' . $profilePrefix . $slugified;
         }
     }
 }
