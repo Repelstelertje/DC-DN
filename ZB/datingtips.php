@@ -1,30 +1,33 @@
 <?php 
 $base = __DIR__;
-define("TITLE", "Datingtips");
 
-$canonical = 'https://zoekertjesbelgie.be/datingtips';
-$pageTitle = 'Datingtips - Zoekertjes België';
-
-include $base . '/includes/array_tips.php';
-
+require_once $base . '/includes/array_tips.php';
 require_once $base . '/includes/utils.php';
+require_once $base . '/includes/site.php';
 
-$datingtip = 'datingtips';
-if(isset($_GET['item'])) {
-        $candidate = strip_bad_chars($_GET['item']);
-        if (isset($datingtips[$candidate])) {
-                $datingtip = $candidate;
-        }
-}
-$tips = $datingtips[$datingtip] ?? null;
-
-if (!$tips) {
-        header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+$param = $_GET['tip'] ?? $_GET['item'] ?? null;
+if ($param !== null) {
+    $candidate = strip_bad_chars($param);
+    if (isset($datingtips[$candidate])) {
+        $tipSlug = $candidate;
+    } else {
+        http_response_code(404);
         include $base . '/404.php';
-        exit;
+        return;
+    }
+} else {
+    $tipSlug = 'datingtips';
 }
 
+$tips = $datingtips[$tipSlug];
 $metaDescription = $tips['meta'];
+$baseUrl = get_base_url('https://zoekertjesbelgie.be');
+$canonical = $baseUrl . '/datingtips';
+if ($tipSlug !== 'datingtips') {
+    $canonical .= '-' . $tipSlug;
+}
+$pageTitle = $tips['title'] . ' - Zoekertjes België';
+
 include $base . '/includes/header.php';
 ?>
 

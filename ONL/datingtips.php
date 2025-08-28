@@ -1,27 +1,33 @@
 <?php 
 $base = __DIR__;
-$datingtip = null;
 
-include $base . '/includes/array_tips.php';
-
+require_once $base . '/includes/array_tips.php';
 require_once $base . '/includes/utils.php';
-if (isset($_GET['item'])) {
-    $candidate = strip_bad_chars($_GET['item']);
+require_once $base . '/includes/site.php';
+
+$param = $_GET['tip'] ?? $_GET['item'] ?? null;
+if ($param !== null) {
+    $candidate = strip_bad_chars($param);
     if (isset($datingtips[$candidate])) {
-        $datingtip = $candidate;
+        $tipSlug = $candidate;
+    } else {
+        http_response_code(404);
+        include $base . '/404.php';
+        return;
     }
-}
-$tips = $datingtips[$datingtip] ?? null;
-
-if (!$tips) {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
-    include $base . '/404.php';
-    exit;
+} else {
+    $tipSlug = 'datingtips';
 }
 
-$pageTitle = $tips['title'];
-$canonical = 'https://oproepjesnederland.nl/datingtips-' . $datingtip;
+$tips = $datingtips[$tipSlug];
 $metaDescription = $tips['meta'];
+$baseUrl = get_base_url('https://oproepjesnederland.nl');
+$canonical = $baseUrl . '/datingtips';
+if ($tipSlug !== 'datingtips') {
+    $canonical .= '-' . $tipSlug;
+}
+$pageTitle = $tips['title'];
+
 include $base . '/includes/header.php';
 ?>
 
