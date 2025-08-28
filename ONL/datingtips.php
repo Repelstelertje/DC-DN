@@ -5,6 +5,7 @@ require_once $base . '/includes/array_tips.php';
 require_once $base . '/includes/utils.php';
 require_once $base . '/includes/site.php';
 
+$defaultSlug = array_key_first($datingtips);
 $param = $_GET['tip'] ?? $_GET['item'] ?? null;
 if ($param !== null) {
     $candidate = strip_bad_chars($param);
@@ -16,14 +17,19 @@ if ($param !== null) {
         return;
     }
 } else {
-    $tipSlug = 'datingtips';
+    $tipSlug = $defaultSlug;
 }
 
-$tips = $datingtips[$tipSlug];
+$tips = $datingtips[$tipSlug] ?? null;
+if (!$tips) {
+    http_response_code(404);
+    include $base . '/404.php';
+    return;
+}
 $metaDescription = $tips['meta'];
 $baseUrl = get_base_url('https://oproepjesnederland.nl');
 $canonical = $baseUrl . '/datingtips';
-if ($tipSlug !== 'datingtips') {
+if ($tipSlug !== $defaultSlug) {
     $canonical .= '-' . $tipSlug;
 }
 $pageTitle = $tips['title'];
