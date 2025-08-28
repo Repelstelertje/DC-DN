@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer>
     <ul class="footer-links">
-        <li><a href="/profielen" class="m-0">Profielen</a> - </li>
+        <li><a href="/mitglieder" class="m-0">Mitglieder</a> - </li>
         <li><a href="https://18date.net/" target="_blank" class="m-0">18Date</a> - </li>
         <li><a href="https://sex55.net/" target="_blank" class="m-0">Sex55</a> - </li>
         <li><a href="https://shemaledaten.net/" target="_blank" class="m-0">Shemale Daten</a> - </li>

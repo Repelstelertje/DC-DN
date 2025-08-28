@@ -68,7 +68,7 @@ $routes = [
     '/privacy'       => 'privacy.php',
     '/cookie-policy' => 'cookie-policy.php',
     '/land'          => 'land.php',
-    '/profielen'     => 'profielen.php',
+    '/mitglieder'    => 'mitglieder.php',
 ];
 
 if (isset($routes[$path])) {
