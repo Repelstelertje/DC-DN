@@ -19,6 +19,12 @@ if ($param !== null) {
     $tipSlug = 'datingtips';
 }
 
+if (!isset($datingtips[$tipSlug])) {
+    http_response_code(404);
+    include $base . '/404.php';
+    return;
+}
+
 $tips = $datingtips[$tipSlug];
 $metaDescription = $tips['meta'];
 $baseUrl = get_base_url('https://zoekertjesbelgie.be');
