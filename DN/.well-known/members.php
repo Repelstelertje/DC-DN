@@ -24,16 +24,7 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
     foreach ($f as $row) {
         if ($row === [null] || $row === false) { continue; }
         if ($headers === null) {
-            if ($hasHeader) {
-                // remove possible UTF-8 BOM and whitespace from header names
-                $headers = array_map(function ($h) {
-                    $h = (string) $h;
-                    // strip BOM if present
-                    $h = preg_replace('/^\xEF\xBB\xBF/', '', $h);
-                    return trim($h);
-                }, $row);
-                continue;
-            }
+            if ($hasHeader) { $headers = $row; continue; }
             $headers = array_map(fn($i) => "col_$i", array_keys($row));
         }
         $assoc = [];
@@ -68,39 +59,37 @@ $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
 $baseUrl  = get_base_url('https://datingnebenan.de');
-$canonical = $baseUrl . '/mitglieder' . ($page > 1 ? '?page=' . $page : '');
+$canonical = $baseUrl . '/members' . ($page > 1 ? '?page=' . $page : '');
 $pageTitle = 'Mitglieder — Dating Nebenan';
 $metaRobots = 'index,follow';
 
 include $base . '/includes/header.php';
 ?>
 <div class="container">
-    <div class="jumbotron my-4">
-        <h1>Mitglieder</h1>
+    <h1>Mitglieder</h1>
 
-        <?php if (empty($profiles)): ?>
-            <p>Keine Mitglieder gefunden.</p>
-        <?php else: ?>
-        <?php $chunks = array_chunk($profiles, 250); ?>
-        <div class="row">
-            <?php foreach ($chunks as $chunk): ?>
-            <div class="col-md-6">
-                <ul class="list-unstyled">
-                    <?php foreach ($chunk as $r):
-                        $id   = trim((string)($r[$idField] ?? ''));
-                        if ($id === '') continue;
-                        $name = $r[$nameField] ?? ('Mitglied ' . $id);
-                        $city = $r[$cityField] ?? '';
-                        $link = $r[$linkField] ?? '';
-                    ?>
-                    <li class="mb-1">
-                        <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>">Profil ansehen</a>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <?php endforeach; ?>
+    <?php if (empty($profiles)): ?>
+        <p>Keine Mitglieder gefunden.</p>
+    <?php else: ?>
+    <?php $chunks = array_chunk($profiles, 250); ?>
+    <div class="row">
+        <?php foreach ($chunks as $chunk): ?>
+        <div class="col-md-6">
+            <ul class="list-unstyled">
+                <?php foreach ($chunk as $r):
+                    $id   = trim((string)($r[$idField] ?? ''));
+                    if ($id === '') continue;
+                    $name = $r[$nameField] ?? ('Mitglied ' . $id);
+                    $city = $r[$cityField] ?? '';
+                    $link = $r[$linkField] ?? '';
+                ?>
+                <li class="mb-1">
+                    <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>" target="_blank" rel="noopener">Profil ansehen</a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
         </div>
+        <?php endforeach; ?>
     </div>
     <?php if ($pages > 1): ?>
     <nav aria-label="Mitglieder Seitennavigation">
