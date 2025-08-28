@@ -67,20 +67,20 @@ $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
 $baseUrl  = get_base_url('https://zoekertjesbelgie.be');
-$canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Profielen — Zoekertjes België';
+$canonical = $baseUrl . '/leden' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Leden — Zoekertjes België';
 $metaRobots = 'index,follow';
 
 $t = [
-    'heading' => 'Profielen',
-    'no_profiles' => 'Geen profielen gevonden.',
+    'heading' => 'Leden',
+    'no_members' => 'Geen leden gevonden.',
     'view_profile' => 'Bekijk profiel',
     'first' => 'Eerste',
     'prev' => 'Vorige',
     'page_of' => 'Pagina %d van %d',
     'next' => 'Volgende',
     'last' => 'Laatste',
-    'pagination_label' => 'Profielen paginering',
+    'pagination_label' => 'Leden paginering',
 ];
 
 include $base . '/includes/header.php';
@@ -90,7 +90,7 @@ include $base . '/includes/header.php';
         <h1><?= $t['heading'] ?></h1>
 
         <?php if (empty($profiles)): ?>
-            <p><?= $t['no_profiles'] ?></p>
+            <p><?= $t['no_members'] ?></p>
         <?php else: ?>
         <?php $chunks = array_chunk($profiles, 250); ?>
         <div class="row">
@@ -100,7 +100,7 @@ include $base . '/includes/header.php';
                     <?php foreach ($chunk as $r):
                         $id   = trim((string)($r[$idField] ?? ''));
                         if ($id === '') continue;
-                        $name = $r[$nameField] ?? ('Profiel ' . $id);
+                        $name = $r[$nameField] ?? ('Lid ' . $id);
                         $city = $r[$cityField] ?? '';
                         $link = $r[$linkField] ?? '';
                     ?>

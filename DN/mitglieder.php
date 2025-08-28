@@ -25,8 +25,10 @@ function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = tr
         if ($row === [null] || $row === false) { continue; }
         if ($headers === null) {
             if ($hasHeader) {
+                // remove possible UTF-8 BOM and whitespace from header names
                 $headers = array_map(function ($h) {
                     $h = (string) $h;
+                    // strip BOM if present
                     $h = preg_replace('/^\xEF\xBB\xBF/', '', $h);
                     return trim($h);
                 }, $row);
@@ -57,7 +59,6 @@ try {
     echo '<p>Fout bij lezen CSV: ' . h($e->getMessage()) . '</p>';
     exit;
 }
-
 // ==== PAGINATION ====
 $perPage = 500;
 $page    = max(1, (int)($_GET['page'] ?? 1));
@@ -66,31 +67,19 @@ $pages   = (int) ceil($total / $perPage);
 $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
-$baseUrl  = $BASE_URL;
-$canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Profielen — shemaledaten.net';
+$baseUrl  = get_base_url('https://datingnebenan.de');
+$canonical = $baseUrl . '/mitglieder' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Mitglieder — Dating Nebenan';
 $metaRobots = 'index,follow';
-
-$t = [
-    'heading' => 'Profielen',
-    'no_profiles' => 'Geen profielen gevonden.',
-    'view_profile' => 'Bekijk profiel',
-    'first' => 'Eerste',
-    'prev' => 'Vorige',
-    'page_of' => 'Pagina %d van %d',
-    'next' => 'Volgende',
-    'last' => 'Laatste',
-    'pagination_label' => 'Profielen paginering',
-];
 
 include $base . '/includes/header.php';
 ?>
 <div class="container">
     <div class="jumbotron my-4">
-        <h1><?= $t['heading'] ?></h1>
+        <h1>Mitglieder</h1>
 
         <?php if (empty($profiles)): ?>
-            <p><?= $t['no_profiles'] ?></p>
+            <p>Keine Mitglieder gefunden.</p>
         <?php else: ?>
         <?php $chunks = array_chunk($profiles, 250); ?>
         <div class="row">
@@ -100,12 +89,12 @@ include $base . '/includes/header.php';
                     <?php foreach ($chunk as $r):
                         $id   = trim((string)($r[$idField] ?? ''));
                         if ($id === '') continue;
-                        $name = $r[$nameField] ?? ('Profiel ' . $id);
+                        $name = $r[$nameField] ?? ('Mitglied ' . $id);
                         $city = $r[$cityField] ?? '';
                         $link = $r[$linkField] ?? '';
                     ?>
                     <li class="mb-1">
-                        <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>"><?= $t['view_profile'] ?></a>
+                        <?=h($name)?> - <?=h($city)?> - <a href="<?=h($link)?>">Profil ansehen</a>
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -114,26 +103,26 @@ include $base . '/includes/header.php';
         </div>
     </div>
     <?php if ($pages > 1): ?>
-    <nav aria-label="<?= $t['pagination_label'] ?>">
+    <nav aria-label="Mitglieder Seitennavigation">
         <?php
         $prevPage = max(1, $page - 1);
         $nextPage = min($pages, $page + 1);
         ?>
         <ul class="pagination">
             <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=1"><?= $t['first'] ?></a>
+                <a class="page-link" href="?page=1">Erste</a>
             </li>
             <li class="page-item<?= $page <= 1 ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$prevPage?>"><?= $t['prev'] ?></a>
+                <a class="page-link" href="?page=<?=$prevPage?>">Zurück</a>
             </li>
             <li class="page-item disabled">
-                <span class="page-link"><?php printf($t['page_of'], $page, $pages); ?></span>
+                <span class="page-link">Seite <?=$page?> von <?=$pages?></span>
             </li>
             <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$nextPage?>"><?= $t['next'] ?></a>
+                <a class="page-link" href="?page=<?=$nextPage?>">Weiter</a>
             </li>
             <li class="page-item<?= $page >= $pages ? ' disabled' : '' ?>">
-                <a class="page-link" href="?page=<?=$pages?>"><?= $t['last'] ?></a>
+                <a class="page-link" href="?page=<?=$pages?>">Letzte</a>
             </li>
         </ul>
     </nav>

@@ -15,7 +15,7 @@ $linkField = 'link';
 // ==== HELPERS ====
 function h(?string $s): string { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 function csvIterator(string $path, string $delimiter = ',', bool $hasHeader = true): Generator {
-    if (!is_readable($path)) { throw new RuntimeException("CSV not readable: $path"); }
+    if (!is_readable($path)) { throw new RuntimeException("CSV niet leesbaar: $path"); }
     $f = new SplFileObject($path, 'r');
     $f->setFlags(SplFileObject::READ_CSV | SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
     $f->setCsvControl($delimiter);
@@ -54,7 +54,7 @@ try {
     }
 } catch (Throwable $e) {
     http_response_code(500);
-    echo '<p>Error reading CSV: ' . h($e->getMessage()) . '</p>';
+    echo '<p>Fout bij lezen CSV: ' . h($e->getMessage()) . '</p>';
     exit;
 }
 
@@ -66,21 +66,21 @@ $pages   = (int) ceil($total / $perPage);
 $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
-$baseUrl  = get_base_url('https://datingcontact.co.uk');
-$canonical = $baseUrl . '/profielen' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Profiles — Dating Contact';
+$baseUrl  = $BASE_URL;
+$canonical = $baseUrl . '/leden' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Leden — 18Date.net';
 $metaRobots = 'index,follow';
 
 $t = [
-    'heading' => 'Profiles',
-    'no_profiles' => 'No profiles found.',
-    'view_profile' => 'View profile',
-    'first' => 'First',
-    'prev' => 'Previous',
-    'page_of' => 'Page %d of %d',
-    'next' => 'Next',
-    'last' => 'Last',
-    'pagination_label' => 'Profiles pagination',
+    'heading' => 'Leden',
+    'no_members' => 'Geen leden gevonden.',
+    'view_profile' => 'Bekijk profiel',
+    'first' => 'Eerste',
+    'prev' => 'Vorige',
+    'page_of' => 'Pagina %d van %d',
+    'next' => 'Volgende',
+    'last' => 'Laatste',
+    'pagination_label' => 'Leden paginering',
 ];
 
 include $base . '/includes/header.php';
@@ -90,7 +90,7 @@ include $base . '/includes/header.php';
         <h1><?= $t['heading'] ?></h1>
 
         <?php if (empty($profiles)): ?>
-            <p><?= $t['no_profiles'] ?></p>
+            <p><?= $t['no_members'] ?></p>
         <?php else: ?>
         <?php $chunks = array_chunk($profiles, 250); ?>
         <div class="row">
@@ -100,7 +100,7 @@ include $base . '/includes/header.php';
                     <?php foreach ($chunk as $r):
                         $id   = trim((string)($r[$idField] ?? ''));
                         if ($id === '') continue;
-                        $name = $r[$nameField] ?? ('Profile ' . $id);
+                        $name = $r[$nameField] ?? ('Lid ' . $id);
                         $city = $r[$cityField] ?? '';
                         $link = $r[$linkField] ?? '';
                     ?>

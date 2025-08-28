@@ -28,6 +28,6 @@
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="profielen">Profielen</a>
+    <a class="nav-link" href="leden">Leden</a>
   </li>
 </ul>
