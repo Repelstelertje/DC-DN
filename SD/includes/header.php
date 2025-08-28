@@ -3,17 +3,17 @@
   include $base . '/includes/nav_items.php';
   // Config is required for API lookups when rendering profile pages
   $config = include_once $base . '/includes/config.php';
-  $BASE_URL = $config['BASE_URL'];
+  $baseUrl = $config['BASE_URL'];
   require_once $base . '/includes/utils.php';
   require_once $base . '/includes/site.php';
 
   configure_error_handling();
 
   $cfg = [
-    'base_url' => $BASE_URL,
+    'base_url' => $baseUrl,
     'site_name' => 'shemaledaten.net',
     'default_title' => 'Shemale Sexdating | shemaledaten.net',
-    'default_og_image' => $BASE_URL . '/img/fb.png',
+    'default_og_image' => $baseUrl . '/img/fb.png',
     'item_prefix' => 'shemale',
     'item_remove_regex' => '/^(?:sexdate|shemale)-/',
     'item_page_title_prefix' => 'Shemale',
@@ -72,7 +72,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="<?php echo rtrim($BASE_URL, '/'); ?>/">Shemale Daten</a>
+          <a class="navbar-brand" href="<?php echo rtrim($baseUrl, '/'); ?>/">Shemale Daten</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu</button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <?php

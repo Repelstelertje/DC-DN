@@ -15,7 +15,7 @@
   $config = include $base . '/includes/config.php';
 
   configure_error_handling();
-  $baseUrl = get_base_url('https://datingnebenan.de');
+  $baseUrl = get_base_url($config['BASE_URL']);
   list($canonicalUrl, $title) = generate_canonical(
       $baseUrl,
       $config['PROFILE_ENDPOINT'],
