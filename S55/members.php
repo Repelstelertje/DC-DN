@@ -66,9 +66,9 @@ $pages   = (int) ceil($total / $perPage);
 $offset  = ($page - 1) * $perPage;
 $profiles = array_slice($profiles, $offset, $perPage);
 
-$baseUrl  = get_base_url('https://oproepjesnederland.nl');
-$canonical = $baseUrl . '/leden' . ($page > 1 ? '?page=' . $page : '');
-$pageTitle = 'Leden — Oproepjes Nederland';
+$baseUrl  = $BASE_URL;
+$canonical = $baseUrl . '/members' . ($page > 1 ? '?page=' . $page : '');
+$pageTitle = 'Leden — Sex55.net';
 $metaRobots = 'index,follow';
 
 $t = [
