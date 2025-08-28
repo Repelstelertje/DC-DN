@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/utils.php';
 
+function get_base_url(string $default) {
+    $url = getenv('ONL_BASE_URL');
+    return $url !== false && $url !== '' ? $url : $default;
+}
+
 function configure_error_handling() {
     $appDebug = getenv('APP_DEBUG');
     if (filter_var($appDebug, FILTER_VALIDATE_BOOLEAN)) {
