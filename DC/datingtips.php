@@ -17,14 +17,14 @@ if ($param !== null) {
         return;
     }
 } else {
-    $tipSlug = 'datingtips';
+    $tipSlug = 'dating-tips';
 }
 
 $tips = $datingtips[$tipSlug];
 $metaDescription = $tips['meta'];
 $baseUrl = get_base_url('https://datingcontact.co.uk');
 $canonical = $baseUrl . '/datingtips';
-if ($tipSlug !== 'datingtips') {
+if ($tipSlug !== 'dating-tips') {
     $canonical .= '-' . $tipSlug;
 }
 $pageTitle = $tips['title'] . ' - Dating Contact';
