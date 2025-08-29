@@ -3,35 +3,44 @@
     require_once __DIR__ . '/includes/utils.php';
 
     $land = isset($_GET['land']) ? strip_bad_chars($_GET['land']) : '';
-    switch ($land) {
-        case 'de':
-            $provArray = $de;
-            $landInfo  = $deLand;
-            $landTitle = 'Deutschland';
-            break;
-        case 'at':
-            $provArray = $at;
-            $landInfo  = $atLand;
-            $landTitle = 'Österreich';
-            break;
-        case 'ch':
-            $provArray = $ch;
-            $landInfo  = $chLand;
-            $landTitle = 'Schweiz';
-            break;
-        default:
-            $provArray = [];
-            $landInfo  = [];
-            $landTitle = '';
-    }
-    if (empty($landTitle)) {
+
+    $data = [
+        'de' => [
+            'provVar'   => 'de',
+            'landVar'   => 'deLand',
+            'landTitle' => 'Deutschland',
+            'canonical' => 'https://datingnebenan.de/dating-deutschland',
+            'pageTitle' => 'Dating Deutschland - Dating Nebenan',
+        ],
+        'at' => [
+            'provVar'   => 'at',
+            'landVar'   => 'atLand',
+            'landTitle' => 'Österreich',
+            'canonical' => 'https://datingnebenan.de/dating-osterreich',
+            'pageTitle' => 'Dating Österreich - Dating Nebenan',
+        ],
+        'ch' => [
+            'provVar'   => 'ch',
+            'landVar'   => 'chLand',
+            'landTitle' => 'Schweiz',
+            'canonical' => 'https://datingnebenan.de/dating-schweiz',
+            'pageTitle' => 'Dating Schweiz - Dating Nebenan',
+        ],
+    ];
+
+    if (!isset($data[$land])) {
         header('Location: 404.php');
         exit;
     }
 
+    $info = $data[$land];
+    $provArray = ${$info['provVar']};
+    $landInfo = ${$info['landVar']};
+    $landTitle = $info['landTitle'];
+    $canonical = $info['canonical'];
+    $pageTitle = $info['pageTitle'];
     $metaDescription = isset($landInfo['meta']) ? $landInfo['meta'] : '';
 
-    $pageTitle = 'Dating ' . $landTitle . ' - Dating Nebenan';
     $base = __DIR__;
     include $base . '/includes/header.php';
 ?>
