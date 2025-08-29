@@ -21,6 +21,14 @@ function configure_error_handling() {
     }
 }
 
+function format_profile_description(string $text) {
+    $text = preg_replace('/\s+/', ' ', trim($text));
+    if (mb_strlen($text) > 160) {
+        $text = mb_substr($text, 0, 159) . '…';
+    }
+    return mb_strlen($text) < 110 ? '' : $text;
+}
+
 function generate_canonical_meta(array $cfg, array $province = []) {
     $base = rtrim($cfg['base_url'], '/');
     $canonical = $base;
@@ -114,7 +122,7 @@ function generate_canonical_meta(array $cfg, array $province = []) {
             }
             $pageTitle = $cfg['profile_title_prefix'] . ' ' . htmlspecialchars($profile_name, ENT_QUOTES, 'UTF-8') . ' | ' . $cfg['site_name'];
             if ($profile_about) {
-                $metaDescription = $profile_about;
+                $metaDescription = format_profile_description($profile_about);
             }
         } else {
             $params = [];
